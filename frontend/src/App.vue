@@ -1,18 +1,18 @@
 <template>
   <v-app>
-<!--    <Header />-->
+    <!--    <Header />-->
 
-      <router-view />
-<!--    </MainLayout>-->
+    <router-view />
+    <!--    </MainLayout>-->
   </v-app>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import Header from "@/components/survey/Header.vue";
-import Component from "vue-class-component";
-import QuestionView from "@/views/QuestionView.vue";
-import MainLayout from "@/components/survey/MainLayout.vue";
+import Vue from 'vue';
+import Header from '@/components/survey/Header.vue';
+import Component from 'vue-class-component';
+import QuestionView from '@/views/QuestionView.vue';
+import MainLayout from '@/components/survey/MainLayout.vue';
 
 @Component({
   components: {
@@ -22,9 +22,7 @@ import MainLayout from "@/components/survey/MainLayout.vue";
   },
 })
 export default class App extends Vue {
-  created(){}
-
+  created() {}
 }
 </script>
-<style>
-</style>
+<style></style>

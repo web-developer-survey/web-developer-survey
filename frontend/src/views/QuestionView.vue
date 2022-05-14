@@ -1,13 +1,8 @@
 <template>
-  <v-card outlined elevation="2" :loading="loading" class="mx-auto my-12" >
+  <v-card outlined elevation="2" :loading="loading" class="mx-auto my-12">
     <template #progress>
-      <v-progress-linear
-        color="deep-purple"
-        height="20"
-        indeterminate
-      ></v-progress-linear>
+      <v-progress-linear color="deep-purple" height="20" indeterminate></v-progress-linear>
     </template>
-
 
     <v-card-title>{{ questionTitle }}</v-card-title>
 
@@ -32,30 +27,25 @@
     <v-divider class="mx-4"></v-divider>
 
     <div class="text-center pa-2">
-      <v-btn class="ma-1" color="secondary lighten-2" @click="reserve">
-        이전(PREV)
-      </v-btn>
-      <v-btn class="ma-1" color="primary lighten-2" @click="reserve">
-        다음(NEXT)
-      </v-btn>
+      <v-btn class="ma-1" color="secondary lighten-2" @click="reserve"> 이전(PREV) </v-btn>
+      <v-btn class="ma-1" color="primary lighten-2" @click="reserve"> 다음(NEXT) </v-btn>
     </div>
   </v-card>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue } from 'vue-property-decorator';
 
 @Component({
-  components: {
-  },
+  components: {},
 })
 export default class QuestionView extends Vue {
-  private message: string = "";
+  private message: string = '';
   private loading: boolean = false;
   private questionInfo = {
-    qName: "Q1",
-    title: "안녕하세요 귀하께서는 웹 개발자 이신가요?",
-    type: "radio",
+    qName: 'Q1',
+    title: '안녕하세요 귀하께서는 웹 개발자 이신가요?',
+    type: 'radio',
     description: `
       해당되는 부분에 답변해주시면 감사하겠습니다.</br>
       1. 예비 웹개발자 혹은 웹개발자로 근무하고 계시면 Y</br>
@@ -63,9 +53,9 @@ export default class QuestionView extends Vue {
     value: null,
   };
 
-  created(){
-    const routerName = this.$route.name
-    console.log(routerName)
+  created() {
+    const routerName = this.$route.name;
+    console.log(routerName);
   }
 
   get questionTitle(): string {
@@ -82,7 +72,7 @@ export default class QuestionView extends Vue {
   }
 
   reserve() {
-    console.log("버튼 클릭");
+    console.log('버튼 클릭');
   }
 }
 </script>

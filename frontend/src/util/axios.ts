@@ -1,13 +1,13 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
-import Vuex from "../store";
-import Vue from "vue";
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import Vuex from '../store';
+import Vue from 'vue';
 
-const baseURL = "/api";
+const baseURL = '/api';
 
 const instance: AxiosInstance = axios.create({
   baseURL,
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   },
   timeout: 20000,
 });
@@ -37,7 +37,7 @@ instance.interceptors.response.use(
     // });
 
     return response;
-  }
+  },
 );
 
 export const ins = instance;
