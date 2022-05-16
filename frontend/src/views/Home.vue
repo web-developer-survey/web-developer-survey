@@ -6,7 +6,7 @@
           <v-icon color="purple darken-2"> mdi-dialpad </v-icon>
           <v-toolbar-title class="text-h6 font-weight-bold pl-0"> 설문에 참여해주세요! </v-toolbar-title>
 
-          <v-spacer></v-spacer>
+          <v-spacer> </v-spacer>
 
           <v-btn color="white" icon>
             <v-icon>mdi-dots-vertical</v-icon>

@@ -1,0 +1,14 @@
+{
+  "name": "web-survey",
+  "scripts": {
+    "back": "npm run start:dev -w=backend",
+    "front": "npm run serve -w=frontend",
+    "build": "npm run build -w frontend -w backend"
+  },
+  "workspaces": {
+    "packages": [
+      "backend/",
+      "frontend/"
+    ]
+  }
+}
