@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateSurveyDto } from './dto/create-survey.dto';
 import { UpdateSurveyDto } from './dto/update-survey.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { SurveySchema } from '@app/my-library/models/survey/entities/survey.schema';
+import { SurveySchema } from '@app/my-library/models/survey/survey.schema';
 import { Model } from 'mongoose';
 
 @Injectable()
