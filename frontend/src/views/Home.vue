@@ -47,6 +47,7 @@ export default class Home extends Vue {
   items = [
     { title: '질문지', href: 'question', icon: 'mdi-book-open-page-variant-outline' },
     { title: '결과 보고서', href: 'result', icon: 'mdi-chart-bar' },
+    { title: '밸런스 게임', href: 'balance', icon: 'mdi-gamepad-variant' },
   ];
   right = null;
 }

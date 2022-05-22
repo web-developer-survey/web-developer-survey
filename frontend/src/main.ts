@@ -5,6 +5,7 @@ import store from './store';
 import vuetify from './plugins/vuetify';
 import VueAxios from 'vue-axios';
 import { ins } from '@/util/axios';
+import '@toast-ui/chart/dist/toastui-chart.min.css';
 
 Vue.config.productionTip = false;
 Vue.use(VueAxios, ins);
