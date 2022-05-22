@@ -3,7 +3,7 @@
     <v-banner single-line sticky color="white">
       <v-toolbar-title>밸런스 게임</v-toolbar-title>
       <template v-slot:actions>
-        <v-btn text color="deep-purple accent-4" @click="$router.push('/')">Go Main</v-btn>
+        <v-btn text color="deep-purple accent-4" href="/">Go Main</v-btn>
       </template>
     </v-banner>
 
@@ -14,8 +14,8 @@
 
       <!-- 선택 창  -->
       <balance-content
-        :selected-a.sync="selectedA"
-        :selected-b.sync="selectedB"
+        :label-a.sync="balanceQuestionInfo.labelA"
+        :label-b.sync="balanceQuestionInfo.labelB"
         @click-answer="clickAnswer"
       />
       <!-- 선택 창  -->
@@ -50,29 +50,24 @@ import Banner from '@/components/common/banner.vue';
 export default class BalanceView extends Vue {
   private selectedType: balanceType = null;
   private balanceQuestionInfo: Balance.Question = {
-    title: '만약 개발자가 되기전 선택해야 한다면?',
-    viewInfo: [{ label: 'a', value: 1 }],
+    title: '',
+    idx: 0,
+    labelA: '',
+    labelB: '',
   };
 
+  async created() {
+    await this.getQuestionInfo();
+  }
+
   async getQuestionInfo(): Promise<void> {
-    const { data } = await this.axios.get(`/balance`);
+    const { data } = (await this.axios.get(`/balance`)) as { data: Balance.Question };
+    this.balanceQuestionInfo = data;
   }
 
   clickAnswer(type: balanceType) {
     const isTypeA = type === 'A';
     this.selectedType = isTypeA ? 'A' : 'B';
-  }
-
-  get selectedA(): boolean | null {
-    if (!this.selectedType) return null;
-
-    return this.selectedType === 'A';
-  }
-
-  get selectedB(): boolean | null {
-    if (!this.selectedType) return null;
-
-    return this.selectedType === 'B';
   }
 
   get title(): string {

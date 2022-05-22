@@ -1,5 +1,5 @@
 export namespace Balance {
-  interface viewProp {
+  export interface viewProp {
     label: string;
     value: 0 | 1;
   }
@@ -11,6 +11,8 @@ export namespace Balance {
 
   export interface Question {
     title: string;
-    viewInfo: viewProp[];
+    idx: number;
+    labelA: string;
+    labelB: string;
   }
 }

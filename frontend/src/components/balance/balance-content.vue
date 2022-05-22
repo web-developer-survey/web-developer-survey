@@ -2,64 +2,70 @@
   <v-card height="300" outlined class="font-content">
     <v-row class="fill-height ma-0">
       <v-col cols="6" class="pa-0 pt-2 pb-2 overflow-hidden">
-        <v-btn
+        <v-card
           @click="clickAnswer(clickInfo.typeA)"
-          class="white--text text-h5 d-block"
           height="100%"
           color="pink darken-2"
+          class="white--text text-h5 d-flex justify-center"
+          style="align-items: center"
         >
-          <div class="text-wrap font-content">
+          <div class="text-wrap text-center font-content">
             <v-scale-transition>
               <v-icon
-                v-if="syncSelectA"
+                v-if="selectA"
                 color="white"
                 size="48"
                 v-text="'mdi-check-circle-outline'"
               ></v-icon>
             </v-scale-transition>
-            엄청난 실력자가 되어서 코딩세계를 재패하며 ie쓰기
+            {{ syncLabelA }}
             <v-progress-linear
               style="width: 300px"
               class="ma-auto"
               v-if="isAllClick"
-              value="50"
-              color="amber lighten-2"
-              height="25"
-              >50%
-            </v-progress-linear>
-          </div>
-        </v-btn>
-      </v-col>
-      <v-col cols="6" class="pa-0 pt-2 pb-2 overflow-hidden">
-        <v-btn
-          @click="clickAnswer(clickInfo.typeB)"
-          class="white--text text-h5"
-          height="100%"
-          color="deep-purple darken-2"
-          block
-        >
-          <div class="text-wrap font-content">
-            <v-scale-transition>
-              <v-icon
-                v-if="syncSelectB"
-                color="white"
-                size="48"
-                v-text="'mdi-check-circle-outline'"
-              ></v-icon>
-            </v-scale-transition>
-            컴퓨터 부수기
-            <v-progress-linear
-              style="width: 300px"
-              v-if="isAllClick"
-              class="ma-auto"
               :value="testNumber"
               color="amber lighten-2"
               height="25"
               >{{ testNumber }}%
             </v-progress-linear>
           </div>
-        </v-btn>
+        </v-card>
       </v-col>
+
+      <v-col cols="6" class="pa-0 pt-2 pb-2 overflow-hidden">
+        <v-card
+          @click="clickAnswer(clickInfo.typeB)"
+          height="100%"
+          color="deep-purple darken-2"
+          class="white--text text-h5 d-flex justify-center"
+          style="align-items: center"
+        >
+          <div class="text-wrap text-center font-content">
+            <v-scale-transition>
+              <v-icon
+                v-if="selectB"
+                color="white"
+                size="48"
+                v-text="'mdi-check-circle-outline'"
+              ></v-icon>
+            </v-scale-transition>
+            {{ syncLabelB }}
+            <v-progress-linear
+              style="width: 300px"
+              class="ma-auto"
+              v-if="isAllClick"
+              :value="testNumber"
+              color="amber lighten-2"
+              height="25"
+              >{{ testNumber }}%
+            </v-progress-linear>
+          </div>
+        </v-card>
+      </v-col>
+
+      <v-overlay absolute :value="isAllClick">
+        <v-btn color="success" @click="isAllClick = false"> Hide Overlay</v-btn>
+      </v-overlay>
     </v-row>
   </v-card>
 </template>
@@ -73,34 +79,43 @@ import { Balance } from '@/common/interface/balance';
   components: {},
 })
 export default class BalanceContent extends Vue {
-  @PropSync('selectedA') syncSelectA?: boolean;
-  @PropSync('selectedB') syncSelectB?: boolean;
+  //#todo: 리팩토링 예정
+
+  @PropSync('labelA') syncLabelA: string;
+  @PropSync('labelB') syncLabelB: string;
   private overlay: boolean = false;
   private testNumber: number = 0;
+  private isAllClick: boolean = false;
+  private select: balanceType;
+
   private clickInfo: Balance.Setting = {
     typeA: 'A',
     typeB: 'B',
   };
 
   async initValue() {
-    await this.addNumber();
-    if (this.testNumber >= 100) return;
+    if (this.testNumber >= 99) return;
     const a = setInterval(() => {
       if (this.testNumber >= 99) clearInterval(a);
       this.testNumber++;
     }, 5);
   }
 
-  async addNumber() {}
-
-  private isAllClick: boolean = false;
-
   @Emit()
   clickAnswer(type: balanceType) {
+    this.select = type;
     this.isAllClick = true;
     this.overlay = !this.overlay;
     this.initValue();
     return type;
+  }
+
+  get selectA(): boolean {
+    return this.select === 'A';
+  }
+
+  get selectB(): boolean {
+    return this.select === 'A';
   }
 }
 </script>
