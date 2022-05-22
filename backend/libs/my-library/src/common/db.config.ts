@@ -7,16 +7,24 @@ require('dotenv').config({
 });
 
 export const uri: string = process.env.uri;
+
 export const enum DB_NAME {
   DevSurvey = 'WebDevSurvey',
+  DevBalance = 'DevBalance',
 }
 
 export const enum CollectionInfo {
   SURVEY = 'Survey',
   ANSWER = 'ANSWER',
+  BALANCE_SURVEY = 'SurveyBalance',
+  BALANCE_ANSWER = 'SurveyAnswer',
 }
 
-export const dbOption = {
+export const enum WebBalanceCollectionInfo {
+  QUESTION = 'Question',
+}
+
+export const dbSurveyOption = {
   imports: [ConfigModule],
   connectionName: DB_NAME.DevSurvey,
   useFactory: () => ({
