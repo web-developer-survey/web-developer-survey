@@ -1,119 +1,94 @@
 <template>
-  <v-card  outlined>
-    <v-row class="fill-height ma-0">
-      <v-col cols="12" class="pa-3 pt-2 pb-2 overflow-hidden" >
-
-        <v-card
-            elevation="2"
-            outlined
-          @click="clickAnswer(clickInfo.typeA)"
-          height="150"
-            class="balance-border1"
-        >
-          <div>
-            <v-system-bar
-                window
-                color="fff"
+  <v-sheet>
+    <v-card :max-height="cardHeight" tile>
+      <v-row class="fill-height ma-0">
+        <v-col cols="12" md="6" class="overflow-hidden">
+          <v-sheet @click="clickAnswer(clickInfo.typeA)" :height="parentHeight">
+            <balance-content-top text="A" />
+            <v-card
+              color="#0F0F0F"
+              :height="syncHeight"
+              class="d-flex justify-center"
+              style="align-items: center"
             >
-              <v-icon>mdi-message</v-icon>
-              <span>선택지 A</span>
-              <v-spacer></v-spacer>
-              <v-icon>mdi-minus</v-icon>
-              <v-icon>mdi-checkbox-blank-outline</v-icon>
-              <v-icon>mdi-close</v-icon>
-            </v-system-bar>
-          </div>
-          <v-card color='#0F0F0F' height="130"   class=" d-flex justify-center " style="align-items: center">
-            <div class="text-wrap text-center font-content">
-              <v-scale-transition>
-                <v-icon
+              <div class="text-wrap text-center font-content">
+                <v-scale-transition>
+                  <v-icon
                     v-if="selectA"
                     color="white"
                     size="48"
                     v-text="'mdi-check-circle-outline'"
-                ></v-icon>
-              </v-scale-transition>
-              {{ syncLabelA }} <span class="Pulse">Click!</span>
-              <v-progress-linear
+                  ></v-icon>
+                </v-scale-transition>
+                {{ syncLabelA }} <span class="Pulse">Click!</span>
+                <v-progress-linear
                   style="width: 200px"
                   class="ma-auto"
                   v-if="isAllClick"
                   :value="testNumber"
                   color="amber lighten-2"
                   height="25"
-              >{{ testNumber }}%
-              </v-progress-linear>
-            </div>
-          </v-card>
+                  >{{ testNumber }}%
+                </v-progress-linear>
+              </div>
+            </v-card>
+          </v-sheet>
+        </v-col>
 
-        </v-card>
-      </v-col>
-
-      <v-col cols="12" class="pa-3 pt-2 pb-2 overflow-hidden">
-        <v-card
-            elevation="2"
-            outlined
-          @click="clickAnswer(clickInfo.typeB)"
-            height="150"
-            class=" balance-border2"
-        >
-          <div>
-            <v-system-bar
-                window
-                color="fff"
+        <v-col cols="12" md="6" class="overflow-hidden">
+          <v-sheet @click="clickAnswer(clickInfo.typeB)" :height="parentHeight">
+            <balance-content-top text="B" />
+            <v-card
+              color="#0F0F0F"
+              :height="syncHeight"
+              class="d-flex justify-center"
+              style="align-items: center"
             >
-              <v-icon>mdi-message</v-icon>
-              <span>선택지 B</span>
-              <v-spacer></v-spacer>
-              <v-icon>mdi-minus</v-icon>
-              <v-icon>mdi-checkbox-blank-outline</v-icon>
-              <v-icon>mdi-close</v-icon>
-            </v-system-bar>
-          </div>
-          <v-card color='#0F0F0F' height="150"    class=" d-flex justify-center " style="align-items: center">
-          <div class="text-wrap text-center font-content">
-            <v-scale-transition>
-              <v-icon
-                v-if="selectB"
-                color="white"
-                size="48"
-                v-text="'mdi-check-circle-outline'"
-              ></v-icon>
-            </v-scale-transition>
-            {{ syncLabelB }} <span class="Pulse">Click!</span>
-            <v-progress-linear
-              style="width: 200px"
-              class="ma-auto"
-              v-if="isAllClick"
-              :value="testNumber"
-              color="amber lighten-2"
-              height="25"
-              >{{ testNumber }}%
-            </v-progress-linear>
-          </div>
-          </v-card>
-        </v-card>
-      </v-col>
-
-<!--      <v-overlay absolute :value="isAllClick">-->
-<!--        <v-btn color="success" @click="isAllClick = false"> Hide Overlay</v-btn>-->
-<!--      </v-overlay>-->
-    </v-row>
-  </v-card>
+              <div class="text-wrap text-center font-content">
+                <v-scale-transition>
+                  <v-icon
+                    v-if="selectB"
+                    color="white"
+                    size="48"
+                    v-text="'mdi-check-circle-outline'"
+                  ></v-icon>
+                </v-scale-transition>
+                {{ syncLabelB }} <span class="Pulse">Click!</span>
+                <v-progress-linear
+                  style="width: 200px"
+                  class="ma-auto"
+                  v-if="isAllClick"
+                  :value="testNumber"
+                  color="amber lighten-2"
+                  height="25"
+                  >{{ testNumber }}%
+                </v-progress-linear>
+              </div>
+            </v-card>
+          </v-sheet>
+        </v-col>
+      </v-row>
+      <v-overlay absolute :value="isAllClick">
+        <v-btn color="deep-purple accent-4" @click="nextQuestion">Next Question</v-btn>
+      </v-overlay>
+    </v-card>
+  </v-sheet>
 </template>
 
 <script lang="ts">
 import { Component, Emit, PropSync, Vue } from 'vue-property-decorator';
 import { balanceType } from '@/common/type/balance';
 import { Balance } from '@/common/interface/balance';
+import BalanceContentTop from '@/components/balance/detail/content/content-bar/balance-content-top.vue';
 
 @Component({
-  components: {},
+  components: { BalanceContentTop },
 })
 export default class BalanceContent extends Vue {
   //#todo: 리팩토링 예정
 
   @PropSync('labelA') syncLabelA: string;
+  @PropSync('height') syncHeight: number;
   @PropSync('labelB') syncLabelB: string;
   private overlay: boolean = false;
   private testNumber: number = 0;
@@ -142,6 +117,14 @@ export default class BalanceContent extends Vue {
     return type;
   }
 
+  @Emit()
+  nextQuestion() {
+    //#todo 초기화
+    this.isAllClick = false;
+    this.select = null;
+    this.testNumber = 0;
+  }
+
   get selectA(): boolean {
     return this.select === 'A';
   }
@@ -149,25 +132,40 @@ export default class BalanceContent extends Vue {
   get selectB(): boolean {
     return this.select === 'A';
   }
+
+  get parentHeight(): number {
+    return this.syncHeight + 30;
+  }
+
+  get cardHeight(): number {
+    return this.syncHeight * 2 + 120;
+  }
 }
 </script>
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
-.font-content{
-  background: #0F140F;
-  color: rgba(125,225,125,0.75);
+.font-content {
+  background: #0f140f;
+  color: rgba(125, 225, 125, 0.75);
   font-family: 'VT323', monospace;
   font-size: 16px;
-  text-shadow: 0 0 5px rgba(125,225,125,0.5), 0 0 15px rgba(125,250,125,1);
+  text-shadow: 0 0 5px rgba(125, 225, 125, 0.5), 0 0 15px rgba(125, 250, 125, 1);
 }
 
 @keyframes ScreenEffect {
-  0% { opacity: 0 }
-  50% { opacity: 1 }
-  100% { opacity: 0 }
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
+
 @keyframes gradient {
   0% {
     background-position: 0% 50%;
@@ -179,13 +177,20 @@ export default class BalanceContent extends Vue {
     background-position: 0% 50%;
   }
 }
+
 .Pulse {
   animation: Pulse 1.5s ease infinite;
 }
 
 @keyframes Pulse {
-  0% { opacity: 0 }
-  50% { opacity: 1 }
-  100% { opacity: 0 }
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 </style>
