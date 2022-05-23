@@ -1,11 +1,12 @@
 <template>
-  <v-card class="fill-height">
-    <v-banner single-line sticky color="white">
-      <v-toolbar-title>밸런스 게임</v-toolbar-title>
-      <template v-slot:actions>
-        <v-btn text color="deep-purple accent-4" href="/">Go Main</v-btn>
-      </template>
-    </v-banner>
+  <v-card class="fill-height" color="indigo lighten-5">
+    <app-bar/>
+<!--    <v-banner single-line sticky color="white" >-->
+<!--&lt;!&ndash;      <v-toolbar-title class=>밸런스 게임</v-toolbar-title>&ndash;&gt;-->
+<!--      <template v-slot:actions>-->
+<!--        <v-btn text color="deep-purple accent-4" href="/">Go Main</v-btn>-->
+<!--      </template>-->
+<!--    </v-banner>-->
 
     <v-card class="mx-auto" max-width="800" height="600">
       <!-- 질문  -->
@@ -43,9 +44,10 @@ import { Balance } from '@/common/interface/balance';
 import BalanceContent from '@/components/balance/balance-content.vue';
 import BalanceHeader from '@/components/balance/balance-header.vue';
 import Banner from '@/components/common/banner.vue';
+import AppBar from "@/components/common/app-bar.vue";
 
 @Component({
-  components: { Banner, BalanceHeader, BalanceContent },
+  components: {AppBar, Banner, BalanceHeader, BalanceContent },
 })
 export default class BalanceView extends Vue {
   private selectedType: balanceType = null;

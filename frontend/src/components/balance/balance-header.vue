@@ -1,6 +1,11 @@
 <template>
   <v-card min-height="100" outlined>
-    <v-card-title class="text-h5 font-weight-bold text-wrap" v-html="addIconTitle" />
+    <v-card-text>
+      <div>질문</div>
+<!--      <v-card-title class=" text-wrap text-h4 text&#45;&#45;primary"  >Unlimited music  now </v-card-title>-->
+    <v-card-title class=" text-wrap " v-html="addIconTitle" />
+
+    </v-card-text>
   </v-card>
 </template>
 

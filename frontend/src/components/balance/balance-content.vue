@@ -1,45 +1,76 @@
 <template>
-  <v-card height="300" outlined class="font-content">
+  <v-card height="300" outlined>
     <v-row class="fill-height ma-0">
-      <v-col cols="6" class="pa-0 pt-2 pb-2 overflow-hidden">
+      <v-col cols="12" class="pa-3 pt-2 pb-2 overflow-hidden" >
+
         <v-card
+            elevation="2"
+            outlined
           @click="clickAnswer(clickInfo.typeA)"
-          height="100%"
-          color="pink darken-2"
-          class="white--text text-h5 d-flex justify-center"
-          style="align-items: center"
+          height="150"
+            class="balance-border1"
         >
-          <div class="text-wrap text-center font-content">
-            <v-scale-transition>
-              <v-icon
-                v-if="selectA"
-                color="white"
-                size="48"
-                v-text="'mdi-check-circle-outline'"
-              ></v-icon>
-            </v-scale-transition>
-            {{ syncLabelA }}
-            <v-progress-linear
-              style="width: 300px"
-              class="ma-auto"
-              v-if="isAllClick"
-              :value="testNumber"
-              color="amber lighten-2"
-              height="25"
-              >{{ testNumber }}%
-            </v-progress-linear>
+          <div>
+            <v-system-bar
+                window
+                color="fff"
+            >
+              <v-icon>mdi-message</v-icon>
+              <span>선택지 A</span>
+              <v-spacer></v-spacer>
+              <v-icon>mdi-minus</v-icon>
+              <v-icon>mdi-checkbox-blank-outline</v-icon>
+              <v-icon>mdi-close</v-icon>
+            </v-system-bar>
           </div>
+          <v-card color='#0F0F0F' height="130"   class=" d-flex justify-center " style="align-items: center">
+            <div class="text-wrap text-center font-content">
+              <v-scale-transition>
+                <v-icon
+                    v-if="selectA"
+                    color="white"
+                    size="48"
+                    v-text="'mdi-check-circle-outline'"
+                ></v-icon>
+              </v-scale-transition>
+              {{ syncLabelA }} <span class="Pulse">Click!</span>
+              <v-progress-linear
+                  style="width: 200px"
+                  class="ma-auto"
+                  v-if="isAllClick"
+                  :value="testNumber"
+                  color="amber lighten-2"
+                  height="25"
+              >{{ testNumber }}%
+              </v-progress-linear>
+            </div>
+          </v-card>
+
         </v-card>
       </v-col>
 
-      <v-col cols="6" class="pa-0 pt-2 pb-2 overflow-hidden">
+      <v-col cols="12" class="pa-3 pt-2 pb-2 overflow-hidden">
         <v-card
+            elevation="2"
+            outlined
           @click="clickAnswer(clickInfo.typeB)"
-          height="100%"
-          color="deep-purple darken-2"
-          class="white--text text-h5 d-flex justify-center"
-          style="align-items: center"
+            height="150"
+            class=" balance-border2"
         >
+          <div>
+            <v-system-bar
+                window
+                color="fff"
+            >
+              <v-icon>mdi-message</v-icon>
+              <span>선택지 B</span>
+              <v-spacer></v-spacer>
+              <v-icon>mdi-minus</v-icon>
+              <v-icon>mdi-checkbox-blank-outline</v-icon>
+              <v-icon>mdi-close</v-icon>
+            </v-system-bar>
+          </div>
+          <v-card color='#0F0F0F' height="150"    class=" d-flex justify-center " style="align-items: center">
           <div class="text-wrap text-center font-content">
             <v-scale-transition>
               <v-icon
@@ -49,9 +80,9 @@
                 v-text="'mdi-check-circle-outline'"
               ></v-icon>
             </v-scale-transition>
-            {{ syncLabelB }}
+            {{ syncLabelB }} <span class="Pulse">Click!</span>
             <v-progress-linear
-              style="width: 300px"
+              style="width: 200px"
               class="ma-auto"
               v-if="isAllClick"
               :value="testNumber"
@@ -60,12 +91,13 @@
               >{{ testNumber }}%
             </v-progress-linear>
           </div>
+          </v-card>
         </v-card>
       </v-col>
 
-      <v-overlay absolute :value="isAllClick">
-        <v-btn color="success" @click="isAllClick = false"> Hide Overlay</v-btn>
-      </v-overlay>
+<!--      <v-overlay absolute :value="isAllClick">-->
+<!--        <v-btn color="success" @click="isAllClick = false"> Hide Overlay</v-btn>-->
+<!--      </v-overlay>-->
     </v-row>
   </v-card>
 </template>
@@ -121,22 +153,59 @@ export default class BalanceContent extends Vue {
 </script>
 
 <style scoped>
-@font-face {
-  font-family: 'Donoun-Medium';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2205@1.0/Donoun-Medium.woff2')
-    format('woff2');
-  font-weight: normal;
-  font-style: normal;
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+.font-content{
+  background: #0F140F;
+  color: rgba(125,225,125,0.75);
+  font-family: 'VT323', monospace;
+  font-size: 25px;
+  text-shadow: 0 0 5px rgba(125,225,125,0.5), 0 0 15px rgba(125,250,125,1);
 }
 
-.font-content {
-  font-family: 'Donoun-Medium', serif;
+@keyframes ScreenEffect {
+  0% { opacity: 0 }
+  50% { opacity: 1 }
+  100% { opacity: 0 }
+}
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+.Pulse {
+  animation: Pulse 1.5s ease infinite;
 }
 
-.test {
-  text-align: center;
-  color: white;
-  font-size: 20px;
-  position: absolute;
+@keyframes Pulse {
+  0% { opacity: 0 }
+  50% { opacity: 1 }
+  100% { opacity: 0 }
 }
+
+
+/*@font-face {*/
+/*  font-family: 'Donoun-Medium';*/
+/*  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2205@1.0/Donoun-Medium.woff2')*/
+/*    format('woff2');*/
+/*  font-weight: normal;*/
+/*  font-style: normal;*/
+/*}*/
+
+/*.font-content {*/
+/*  font-family: 'Donoun-Medium', serif;*/
+/*}*/
+
+/*.test {*/
+/*  text-align: center;*/
+/*  color: white;*/
+/*  font-size: 20px;*/
+/*  position: absolute;*/
+/*}*/
 </style>
