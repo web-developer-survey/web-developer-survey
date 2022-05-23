@@ -1,5 +1,5 @@
 <template>
-  <v-card height="300" outlined>
+  <v-card  outlined>
     <v-row class="fill-height ma-0">
       <v-col cols="12" class="pa-3 pt-2 pb-2 overflow-hidden" >
 
@@ -159,7 +159,7 @@ export default class BalanceContent extends Vue {
   background: #0F140F;
   color: rgba(125,225,125,0.75);
   font-family: 'VT323', monospace;
-  font-size: 25px;
+  font-size: 16px;
   text-shadow: 0 0 5px rgba(125,225,125,0.5), 0 0 15px rgba(125,250,125,1);
 }
 
@@ -188,24 +188,4 @@ export default class BalanceContent extends Vue {
   50% { opacity: 1 }
   100% { opacity: 0 }
 }
-
-
-/*@font-face {*/
-/*  font-family: 'Donoun-Medium';*/
-/*  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2205@1.0/Donoun-Medium.woff2')*/
-/*    format('woff2');*/
-/*  font-weight: normal;*/
-/*  font-style: normal;*/
-/*}*/
-
-/*.font-content {*/
-/*  font-family: 'Donoun-Medium', serif;*/
-/*}*/
-
-/*.test {*/
-/*  text-align: center;*/
-/*  color: white;*/
-/*  font-size: 20px;*/
-/*  position: absolute;*/
-/*}*/
 </style>
