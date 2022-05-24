@@ -9,9 +9,9 @@
               color="#0F0F0F"
               :height="syncHeight"
               class="d-flex justify-center"
-              style="align-items: center"
+              style="align-items: center; overflow-y: auto;"
             >
-              <div class="text-wrap text-center font-content">
+              <div class="text-wrap text-center font-content" style="max-width: 20em; ">
                 <v-scale-transition>
                   <v-icon
                     v-if="selectA"
@@ -41,10 +41,10 @@
             <v-card
               color="#0F0F0F"
               :height="syncHeight"
-              class="d-flex justify-center"
-              style="align-items: center"
+              class="d-flex justify-center pa-3"
+              style="align-items: center; overflow-y: auto;"
             >
-              <div class="text-wrap text-center font-content">
+              <div class="text-wrap text-center font-content" style="max-width: 20em; ">
                 <v-scale-transition>
                   <v-icon
                     v-if="selectB"
@@ -150,7 +150,7 @@ export default class BalanceContent extends Vue {
   background: #0f140f;
   color: rgba(125, 225, 125, 0.75);
   font-family: 'VT323', monospace;
-  font-size: 16px;
+  font-size: 1em;
   text-shadow: 0 0 5px rgba(125, 225, 125, 0.5), 0 0 15px rgba(125, 250, 125, 1);
 }
 
