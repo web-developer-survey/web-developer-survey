@@ -2,7 +2,7 @@
   <v-sheet>
     <v-card :max-height="cardHeight" tile>
       <v-row class="fill-height ma-0">
-        <v-col class="overflow-hidden" cols="12" md="6">
+        <v-col :class="`overflow-hidden ${noneEventCss}`" cols="12" md="6">
           <v-sheet :height="parentHeight" @click="clickAnswer(clickInfo.typeA)">
             <balance-content-top text="A" />
             <v-card
@@ -35,7 +35,7 @@
           </v-sheet>
         </v-col>
 
-        <v-col class="overflow-hidden" cols="12" md="6">
+        <v-col :class="`overflow-hidden ${noneEventCss}`" cols="12" md="6">
           <v-sheet :height="parentHeight" @click="clickAnswer(clickInfo.typeB)">
             <balance-content-top text="B" />
             <v-card
@@ -120,6 +120,7 @@ export default class BalanceContent extends Vue {
   }
 
   async initValueA(max: number) {
+    this.resultA = 0;
     if (!max) return;
     const speed = 10 - max;
     const addInterval = setInterval(() => {
@@ -132,6 +133,7 @@ export default class BalanceContent extends Vue {
   }
 
   async initValueB(max: number) {
+    this.resultB = 0;
     if (!max) return;
     const speed = 10 - max;
     const addInterval = setInterval(() => {
@@ -145,9 +147,12 @@ export default class BalanceContent extends Vue {
 
   @Emit()
   clickAnswer(type: balanceType) {
+    if (this.isAllClick) return;
+    console.log('a');
     this.select = type;
-    this.isAllClick = true;
-
+    setTimeout(() => {
+      this.isAllClick = true;
+    }, 30);
     setTimeout(() => {
       this.overlay = true;
     }, 1000);
@@ -162,11 +167,19 @@ export default class BalanceContent extends Vue {
     this.resultA = 0;
     this.resultB = 0;
   }
+
+  get noneEventCss(): string {
+    return this.isAllClick ? 'none-click' : '';
+  }
 }
 </script>
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+.none-click {
+  pointer-events: none;
+}
 
 .font-content {
   background: #0f140f;
