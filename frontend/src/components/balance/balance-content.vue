@@ -2,16 +2,16 @@
   <v-sheet>
     <v-card :max-height="cardHeight" tile>
       <v-row class="fill-height ma-0">
-        <v-col cols="12" md="6" class="overflow-hidden">
-          <v-sheet @click="clickAnswer(clickInfo.typeA)" :height="parentHeight">
+        <v-col class="overflow-hidden" cols="12" md="6">
+          <v-sheet :height="parentHeight" @click="clickAnswer(clickInfo.typeA)">
             <balance-content-top text="A" />
             <v-card
-              color="#0F0F0F"
               :height="syncHeight"
               class="d-flex justify-center"
-              style="align-items: center; overflow-y: auto;"
+              color="#0F0F0F"
+              style="align-items: center; overflow-y: auto"
             >
-              <div class="text-wrap text-center font-content" style="max-width: 20em; ">
+              <div class="text-wrap text-center font-content" style="max-width: 20em">
                 <v-scale-transition>
                   <v-icon
                     v-if="selectA"
@@ -22,12 +22,12 @@
                 </v-scale-transition>
                 {{ syncLabelA }} <span class="Pulse">Click!</span>
                 <v-progress-linear
-                  style="width: 200px"
-                  class="ma-auto"
                   v-if="isAllClick"
                   :value="testNumber"
+                  class="ma-auto"
                   color="amber lighten-2"
                   height="25"
+                  style="width: 200px"
                   >{{ testNumber }}%
                 </v-progress-linear>
               </div>
@@ -35,16 +35,16 @@
           </v-sheet>
         </v-col>
 
-        <v-col cols="12" md="6" class="overflow-hidden">
-          <v-sheet @click="clickAnswer(clickInfo.typeB)" :height="parentHeight">
+        <v-col class="overflow-hidden" cols="12" md="6">
+          <v-sheet :height="parentHeight" @click="clickAnswer(clickInfo.typeB)">
             <balance-content-top text="B" />
             <v-card
-              color="#0F0F0F"
               :height="syncHeight"
               class="d-flex justify-center pa-3"
-              style="align-items: center; overflow-y: auto;"
+              color="#0F0F0F"
+              style="align-items: center; overflow-y: auto"
             >
-              <div class="text-wrap text-center font-content" style="max-width: 20em; ">
+              <div class="text-wrap text-center font-content" style="max-width: 20em">
                 <v-scale-transition>
                   <v-icon
                     v-if="selectB"
@@ -55,12 +55,12 @@
                 </v-scale-transition>
                 {{ syncLabelB }} <span class="Pulse">Click!</span>
                 <v-progress-linear
-                  style="width: 200px"
-                  class="ma-auto"
                   v-if="isAllClick"
                   :value="testNumber"
+                  class="ma-auto"
                   color="amber lighten-2"
                   height="25"
+                  style="width: 200px"
                   >{{ testNumber }}%
                 </v-progress-linear>
               </div>
@@ -68,9 +68,9 @@
           </v-sheet>
         </v-col>
       </v-row>
-      <v-overlay absolute :value="isAllClick">
-        <v-btn color="deep-purple accent-4" @click="nextQuestion">Next Question</v-btn>
-      </v-overlay>
+      <!--      <v-overlay absolute :value="isAllClick">-->
+      <!--        <v-btn color="deep-purple accent-4" @click="nextQuestion">Next Question</v-btn>-->
+      <!--      </v-overlay>-->
     </v-card>
   </v-sheet>
 </template>
@@ -90,6 +90,7 @@ export default class BalanceContent extends Vue {
   @PropSync('labelA') syncLabelA: string;
   @PropSync('height') syncHeight: number;
   @PropSync('labelB') syncLabelB: string;
+
   private overlay: boolean = false;
   private testNumber: number = 0;
   private isAllClick: boolean = false;
@@ -99,6 +100,22 @@ export default class BalanceContent extends Vue {
     typeA: 'A',
     typeB: 'B',
   };
+
+  get selectA(): boolean {
+    return this.select === 'A';
+  }
+
+  get selectB(): boolean {
+    return this.select === 'A';
+  }
+
+  get parentHeight(): number {
+    return this.syncHeight + 30;
+  }
+
+  get cardHeight(): number {
+    return this.syncHeight * 2 + 120;
+  }
 
   async initValue() {
     if (this.testNumber >= 99) return;
@@ -123,22 +140,6 @@ export default class BalanceContent extends Vue {
     this.isAllClick = false;
     this.select = null;
     this.testNumber = 0;
-  }
-
-  get selectA(): boolean {
-    return this.select === 'A';
-  }
-
-  get selectB(): boolean {
-    return this.select === 'A';
-  }
-
-  get parentHeight(): number {
-    return this.syncHeight + 30;
-  }
-
-  get cardHeight(): number {
-    return this.syncHeight * 2 + 120;
   }
 }
 </script>

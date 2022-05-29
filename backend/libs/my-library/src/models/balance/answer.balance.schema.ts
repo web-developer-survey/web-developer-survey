@@ -4,15 +4,14 @@ import { Document } from 'mongoose';
 
 @Schema({ collection: CollectionInfo.BALANCE_ANSWER })
 export class AnswerBalanceSchema extends Document {
-
-  @Prop({ required: true, type: String })
+  @Prop({ required: false })
   _id: string;
 
   @Prop({ required: false, type: Number })
   idx: number;
 
   @Prop({ required: false, type: Number })
-  value: number
+  value: number;
 }
 
 export const AnswerBalanceFactory = createFeature(AnswerBalanceSchema);

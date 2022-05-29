@@ -15,9 +15,9 @@
     <template #banner>
       <div>
         <hr />
-        <banner width="300" height="50" />
+        <banner height="50" width="300" />
         <hr />
-        <banner width="300" height="100" />
+        <banner height="100" width="300" />
       </div>
     </template>
   </balance-layout>
@@ -46,20 +46,6 @@ export default class BalanceView extends Vue {
     labelB: '',
   };
 
-  async created() {
-    await this.getQuestionInfo();
-  }
-
-  async getQuestionInfo(): Promise<void> {
-    const { data } = (await this.axios.get(`/balance`)) as { data: Balance.Question };
-    this.balanceQuestionInfo = data;
-  }
-
-  clickAnswer(type: balanceType) {
-    const isTypeA = type === 'A';
-    this.selectedType = isTypeA ? 'A' : 'B';
-  }
-
   get title(): string {
     return this.balanceQuestionInfo.title;
   }
@@ -85,6 +71,31 @@ export default class BalanceView extends Vue {
       case 'xl':
         return 800;
     }
+  }
+
+  async created() {
+    await this.getQuestionInfo();
+  }
+
+  async getQuestionInfo(): Promise<void> {
+    const { data } = (await this.axios.get(`/balance/question`)) as { data: Balance.Question };
+    this.balanceQuestionInfo = data;
+  }
+
+  getSendData(type: balanceType) {
+    const value = type === 'A' ? 1 : 2;
+    return {
+      idx: this.balanceQuestionInfo.idx,
+      value: value,
+    };
+  }
+
+  async clickAnswer(type: balanceType) {
+    const sendData = this.getSendData(type);
+    const { data } = await this.axios.post(`/balance/answer`, sendData);
+    console.log(data);
+    const isTypeA = type === 'A';
+    this.selectedType = isTypeA ? 'A' : 'B';
   }
 }
 </script>
