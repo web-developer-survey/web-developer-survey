@@ -1,0 +1,18 @@
+import { CollectionInfo, createFeature } from '@app/my-library/common/db.config';
+import { Prop, Schema } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
+
+@Schema({ collection: CollectionInfo.BALANCE_ANSWER })
+export class AnswerBalanceSchema extends Document {
+
+  @Prop({ required: true, type: String })
+  _id: string;
+
+  @Prop({ required: false, type: Number })
+  idx: number;
+
+  @Prop({ required: false, type: Number })
+  value: number
+}
+
+export const AnswerBalanceFactory = createFeature(AnswerBalanceSchema);

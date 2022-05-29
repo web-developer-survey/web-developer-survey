@@ -14,10 +14,11 @@ export const enum DB_NAME {
 }
 
 export const enum CollectionInfo {
-  SURVEY = 'Survey',
-  ANSWER = 'ANSWER',
-  BALANCE_SURVEY = 'SurveyBalance',
-  BALANCE_ANSWER = 'SurveyAnswer',
+  QUESTION_SURVEY = 'SurveyQuestion',
+  BALANCE_SURVEY = 'BalanceQuestion',
+
+  QUESTION_ANSWER = 'SurveyAnswer',
+  BALANCE_ANSWER = 'BalanceAnswer',
 }
 
 export const enum WebBalanceCollectionInfo {
