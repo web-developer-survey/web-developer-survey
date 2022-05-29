@@ -16,4 +16,35 @@ export class BalanceAnswerRepository {
       ...createBalanceAnswerDto,
     }).save();
   }
+
+  async findOne(idx: number) {
+    const $match = { $match: { idx } };
+    const $project_match = {
+      $project: {
+        _id: '$idx',
+        value1: { $cond: [{ $eq: ['$value', 1] }, 1, 0] },
+      },
+    };
+    const $group = {
+      $group: {
+        _id: '$idx',
+        aAvg: { $avg: { $multiply: ['$value1', 100] } },
+      },
+    };
+    const $project_result = {
+      $project: {
+        _id: 0,
+        aAvg: { $round: ['$aAvg', 0] },
+        bAvg: { $round: [{ $subtract: [100, '$aAvg'] }, 0] },
+      },
+    };
+
+    const [data] = await this.balanceAnswerModel.aggregate([
+      $match,
+      $project_match,
+      $group,
+      $project_result,
+    ]);
+    return data;
+  }
 }

@@ -23,12 +23,12 @@
                 {{ syncLabelA }} <span class="Pulse">Click!</span>
                 <v-progress-linear
                   v-if="isAllClick"
-                  :value="testNumber"
+                  :value="resultA"
                   class="ma-auto"
                   color="amber lighten-2"
                   height="25"
                   style="width: 200px"
-                  >{{ testNumber }}%
+                  >{{ resultA }}%
                 </v-progress-linear>
               </div>
             </v-card>
@@ -56,21 +56,21 @@
                 {{ syncLabelB }} <span class="Pulse">Click!</span>
                 <v-progress-linear
                   v-if="isAllClick"
-                  :value="testNumber"
+                  :value="resultB"
                   class="ma-auto"
                   color="amber lighten-2"
                   height="25"
                   style="width: 200px"
-                  >{{ testNumber }}%
+                  >{{ resultB }}%
                 </v-progress-linear>
               </div>
             </v-card>
           </v-sheet>
         </v-col>
       </v-row>
-      <!--      <v-overlay absolute :value="isAllClick">-->
-      <!--        <v-btn color="deep-purple accent-4" @click="nextQuestion">Next Question</v-btn>-->
-      <!--      </v-overlay>-->
+      <v-overlay absolute :value="overlay">
+        <v-btn color="deep-purple accent-4" @click="nextQuestion">Next Question</v-btn>
+      </v-overlay>
     </v-card>
   </v-sheet>
 </template>
@@ -90,9 +90,11 @@ export default class BalanceContent extends Vue {
   @PropSync('labelA') syncLabelA: string;
   @PropSync('height') syncHeight: number;
   @PropSync('labelB') syncLabelB: string;
+  @PropSync('result') syncResult: { aAvg: number; bAvg: number };
 
   private overlay: boolean = false;
-  private testNumber: number = 0;
+  private resultA: number = 0;
+  private resultB: number = 0;
   private isAllClick: boolean = false;
   private select: balanceType;
 
@@ -117,29 +119,48 @@ export default class BalanceContent extends Vue {
     return this.syncHeight * 2 + 120;
   }
 
-  async initValue() {
-    if (this.testNumber >= 99) return;
-    const a = setInterval(() => {
-      if (this.testNumber >= 99) clearInterval(a);
-      this.testNumber++;
-    }, 5);
+  async initValueA(max: number) {
+    if (!max) return;
+    const speed = 10 - max;
+    const addInterval = setInterval(() => {
+      if (max === this.resultA) {
+        clearInterval(addInterval);
+        return false;
+      }
+      ++this.resultA;
+    }, speed);
+  }
+
+  async initValueB(max: number) {
+    if (!max) return;
+    const speed = 10 - max;
+    const addInterval = setInterval(() => {
+      if (max === this.resultB) {
+        clearInterval(addInterval);
+        return false;
+      }
+      ++this.resultB;
+    }, speed);
   }
 
   @Emit()
   clickAnswer(type: balanceType) {
     this.select = type;
     this.isAllClick = true;
-    this.overlay = !this.overlay;
-    this.initValue();
+
+    setTimeout(() => {
+      this.overlay = true;
+    }, 1000);
     return type;
   }
 
   @Emit()
   nextQuestion() {
-    //#todo 초기화
     this.isAllClick = false;
+    this.overlay = false;
     this.select = null;
-    this.testNumber = 0;
+    this.resultA = 0;
+    this.resultB = 0;
   }
 }
 </script>

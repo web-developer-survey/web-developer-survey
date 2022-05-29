@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { BalanceAnswerService } from './balance-answer.service';
 import { CreateBalanceAnswerDto } from './dto/create-balance-answer.dto';
 import { UpdateBalanceAnswerDto } from './dto/update-balance-answer.dto';
@@ -17,9 +17,9 @@ export class BalanceAnswerController {
     return this.balanceAnswerService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.balanceAnswerService.findOne(+id);
+  @Get(':idx')
+  findOne(@Param('idx') idx: string) {
+    return this.balanceAnswerService.findOne(+idx);
   }
 
   @Patch(':id')

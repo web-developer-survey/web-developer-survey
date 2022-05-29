@@ -5,11 +5,13 @@
     </template>
     <template #content>
       <balance-content
+        ref="content"
         :height="customHeight"
         :label-a.sync="balanceQuestionInfo.labelA"
         :label-b.sync="balanceQuestionInfo.labelB"
         @click-answer="clickAnswer"
         @next-question="getQuestionInfo"
+        :result.sync="balanceQuestionResult"
       />
     </template>
     <template #banner>
@@ -24,7 +26,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Ref, Vue } from 'vue-property-decorator';
 import { balanceType } from '@/common/type/balance';
 import { Balance } from '@/common/interface/balance';
 import BalanceContent from '@/components/balance/balance-content.vue';
@@ -45,6 +47,11 @@ export default class BalanceView extends Vue {
     labelA: '',
     labelB: '',
   };
+  private balanceQuestionResult = {
+    aAvg: 0,
+    bAvg: 0,
+  };
+  @Ref() content: BalanceContent;
 
   get title(): string {
     return this.balanceQuestionInfo.title;
@@ -92,10 +99,17 @@ export default class BalanceView extends Vue {
 
   async clickAnswer(type: balanceType) {
     const sendData = this.getSendData(type);
-    const { data } = await this.axios.post(`/balance/answer`, sendData);
-    console.log(data);
+    await this.axios.post(`/balance/answer`, sendData);
+    await this.getResult();
     const isTypeA = type === 'A';
     this.selectedType = isTypeA ? 'A' : 'B';
+  }
+
+  async getResult() {
+    const { data } = await this.axios.get(`/balance/answer/${this.balanceQuestionInfo.idx}`);
+    await this.content.initValueA(data.aAvg);
+    await this.content.initValueB(data.bAvg);
+    this.balanceQuestionResult = data;
   }
 }
 </script>

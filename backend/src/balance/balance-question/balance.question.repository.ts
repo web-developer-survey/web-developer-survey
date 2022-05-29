@@ -18,7 +18,7 @@ export class BalanceQuestionRepository {
   async findAll() {
     //#TODO : 쿼리에서 변경시킬 것
     const [survey] = await this.balanceModel.aggregate([
-      { $match: { idx: { $nin: [1, 2, 3, 4] } } },
+      { $match: { idx: { $in: [1, 2, 3, 4] } } },
       { $sample: { size: 1 } },
     ]);
 

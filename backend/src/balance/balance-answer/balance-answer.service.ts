@@ -16,8 +16,8 @@ export class BalanceAnswerService {
     return `This action returns all balanceAnswer`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} balanceAnswer`;
+  findOne(idx: number) {
+    return this.balanceAnswerRepo.findOne(idx);
   }
 
   update(id: number, updateBalanceAnswerDto: UpdateBalanceAnswerDto) {
