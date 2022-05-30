@@ -1,6 +1,6 @@
 <template>
   <v-sheet>
-    <v-card :max-height="cardHeight" tile>
+    <v-card :max-height="cardHeight" tile color="grey">
       <v-row class="fill-height ma-0">
         <v-col :class="`overflow-hidden ${noneEventCss}`" cols="12" md="6">
           <v-sheet :height="parentHeight" @click="clickAnswer(clickInfo.typeA)">
@@ -68,8 +68,9 @@
           </v-sheet>
         </v-col>
       </v-row>
-      <v-overlay absolute :value="overlay">
-        <v-btn color="deep-purple accent-4" @click="nextQuestion">Next Question</v-btn>
+      <v-overlay absolute :value="overlay" @click="nextQuestion" class="pointer">
+        <v-card-title> 자동으로 다음 질문으로 넘어갑니다!...</v-card-title>
+        <v-card-subtitle>클릭시 바로 넘어갑니다!</v-card-subtitle>
       </v-overlay>
     </v-card>
   </v-sheet>
@@ -85,23 +86,93 @@ import BalanceContentTop from '@/components/balance/detail/content/content-bar/b
   components: { BalanceContentTop },
 })
 export default class BalanceContent extends Vue {
-  //#todo: 리팩토링 예정
-
   @PropSync('labelA') syncLabelA: string;
-  @PropSync('height') syncHeight: number;
   @PropSync('labelB') syncLabelB: string;
-  @PropSync('result') syncResult: { aAvg: number; bAvg: number };
+  @PropSync('height') syncHeight: number;
+  private nextTimer: ReturnType<typeof setTimeout> = setTimeout(() => {});
 
   private overlay: boolean = false;
-  private resultA: number = 0;
-  private resultB: number = 0;
   private isAllClick: boolean = false;
   private select: balanceType;
+
+  private resultA: number = 0;
+  private resultB: number = 0;
+  private completeA: boolean = false;
+  private completeB: boolean = false;
 
   private clickInfo: Balance.Setting = {
     typeA: 'A',
     typeB: 'B',
   };
+
+  private timerOption = {
+    nextQuestion: 3000,
+    showOverlay: 1000,
+  };
+
+  reset() {
+    this.isAllClick = false;
+    this.overlay = false;
+    this.select = null;
+    this.resultA = 0;
+    this.resultB = 0;
+    this.completeA = false;
+    this.completeB = false;
+    clearTimeout(this.nextTimer);
+    this.nextTimer = setTimeout(() => {});
+  }
+
+  initValueA(max: number) {
+    this.resultA = 0;
+    if (!max) return;
+    const speed = 10 - max;
+    const addInterval = setInterval(() => {
+      if (max === this.resultA) {
+        clearInterval(addInterval);
+        this.completeA = true;
+        return false;
+      }
+      ++this.resultA;
+    }, speed);
+  }
+
+  initValueB(max: number) {
+    this.resultB = 0;
+    if (!max) return;
+    const speed = 10 - max;
+    const addInterval = setInterval(() => {
+      if (max === this.resultB) {
+        clearInterval(addInterval);
+        this.completeB = true;
+        return false;
+      }
+      ++this.resultB;
+    }, speed);
+  }
+
+  complete() {
+    this.nextTimer = setTimeout(() => {
+      this.nextQuestion();
+    }, this.timerOption.nextQuestion);
+  }
+
+  @Emit()
+  clickAnswer(type: balanceType) {
+    if (this.isAllClick) return;
+    this.select = type;
+    this.isAllClick = true;
+
+    this.nextTimer = setTimeout(() => {
+      this.overlay = true;
+    }, this.timerOption.showOverlay);
+
+    return type;
+  }
+
+  @Emit()
+  nextQuestion() {
+    this.reset();
+  }
 
   get selectA(): boolean {
     return this.select === 'A';
@@ -119,55 +190,6 @@ export default class BalanceContent extends Vue {
     return this.syncHeight * 2 + 120;
   }
 
-  async initValueA(max: number) {
-    this.resultA = 0;
-    if (!max) return;
-    const speed = 10 - max;
-    const addInterval = setInterval(() => {
-      if (max === this.resultA) {
-        clearInterval(addInterval);
-        return false;
-      }
-      ++this.resultA;
-    }, speed);
-  }
-
-  async initValueB(max: number) {
-    this.resultB = 0;
-    if (!max) return;
-    const speed = 10 - max;
-    const addInterval = setInterval(() => {
-      if (max === this.resultB) {
-        clearInterval(addInterval);
-        return false;
-      }
-      ++this.resultB;
-    }, speed);
-  }
-
-  @Emit()
-  clickAnswer(type: balanceType) {
-    if (this.isAllClick) return;
-    console.log('a');
-    this.select = type;
-    setTimeout(() => {
-      this.isAllClick = true;
-    }, 30);
-    setTimeout(() => {
-      this.overlay = true;
-    }, 1000);
-    return type;
-  }
-
-  @Emit()
-  nextQuestion() {
-    this.isAllClick = false;
-    this.overlay = false;
-    this.select = null;
-    this.resultA = 0;
-    this.resultB = 0;
-  }
-
   get noneEventCss(): string {
     return this.isAllClick ? 'none-click' : '';
   }
@@ -179,6 +201,10 @@ export default class BalanceContent extends Vue {
 
 .none-click {
   pointer-events: none;
+}
+
+.pointer {
+  cursor: pointer;
 }
 
 .font-content {

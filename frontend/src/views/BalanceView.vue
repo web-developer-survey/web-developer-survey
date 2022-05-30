@@ -1,8 +1,6 @@
 <template>
   <balance-layout>
-    <template #title>
-      {{ title }}
-    </template>
+    <template #title> {{ balanceQuestionInfo.idx }}.{{ title }} </template>
     <template #content>
       <balance-content
         ref="content"
@@ -11,10 +9,9 @@
         :label-b.sync="balanceQuestionInfo.labelB"
         @click-answer="clickAnswer"
         @next-question="getQuestionInfo"
-        :result.sync="balanceQuestionResult"
       />
     </template>
-    <template #banner>
+    <template #banner v-if="false">
       <div>
         <hr />
         <banner height="50" width="300" />
@@ -30,28 +27,18 @@ import { Component, Ref, Vue } from 'vue-property-decorator';
 import { balanceType } from '@/common/type/balance';
 import { Balance } from '@/common/interface/balance';
 import BalanceContent from '@/components/balance/balance-content.vue';
-import BalanceHeader from '@/components/balance/balance-header.vue';
 import Banner from '@/components/common/banner.vue';
-import AppBar from '@/components/common/app-bar.vue';
-import BalanceContentTop from '@/components/balance/detail/content/content-bar/balance-content-top.vue';
 import BalanceLayout from '@/components/balance/balance-layout.vue';
+import { resetBalanceQuestion, resetBalanceResult } from '@/util/default-setting/balance';
 
 @Component({
-  components: { BalanceLayout, BalanceContentTop, AppBar, Banner, BalanceHeader, BalanceContent },
+  components: { BalanceLayout, Banner, BalanceContent },
 })
 export default class BalanceView extends Vue {
-  private selectedType: balanceType = null;
-  private balanceQuestionInfo: Balance.Question = {
-    title: '',
-    idx: 0,
-    labelA: '',
-    labelB: '',
-  };
-  private balanceQuestionResult = {
-    aAvg: 0,
-    bAvg: 0,
-  };
   @Ref() content: BalanceContent;
+
+  private balanceQuestionInfo: Balance.Question = resetBalanceQuestion();
+  private balanceQuestionResult = resetBalanceResult();
 
   get title(): string {
     return this.balanceQuestionInfo.title;
@@ -101,14 +88,13 @@ export default class BalanceView extends Vue {
     const sendData = this.getSendData(type);
     await this.axios.post(`/balance/answer`, sendData);
     await this.getResult();
-    const isTypeA = type === 'A';
-    this.selectedType = isTypeA ? 'A' : 'B';
   }
 
   async getResult() {
     const { data } = await this.axios.get(`/balance/answer/${this.balanceQuestionInfo.idx}`);
-    await this.content.initValueA(data.aAvg);
-    await this.content.initValueB(data.bAvg);
+    this.content.initValueA(data.aAvg);
+    this.content.initValueB(data.bAvg);
+    this.content.complete();
     this.balanceQuestionResult = data;
   }
 }
