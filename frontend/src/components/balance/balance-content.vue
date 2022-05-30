@@ -69,10 +69,11 @@
         </v-col>
       </v-row>
       <v-overlay absolute :value="overlay" @click="nextQuestion" class="pointer">
-        <v-card-title
-          >자동으로 다음질문 넘어갑니다!
+        <v-card-title>
+          <small>{{ nextCnt }}초후</small>&nbsp;자동으로 다음질문 넘어갑니다!
           <v-icon>mdi-cat</v-icon>
         </v-card-title>
+
         <v-card-subtitle
           ><b class="click-pointer">
             <v-icon color="#ffea00">mdi-rodent</v-icon>
@@ -98,7 +99,8 @@ export default class BalanceContent extends Vue {
   @PropSync('labelB') syncLabelB: string;
   @PropSync('height') syncHeight: number;
   private nextTimer: ReturnType<typeof setTimeout> = setTimeout(() => {});
-
+  private cntTimer: ReturnType<typeof setTimeout> = setTimeout(() => {});
+  private nextCnt: number = 4;
   private overlay: boolean = false;
   private isAllClick: boolean = false;
   private select: balanceType;
@@ -114,11 +116,13 @@ export default class BalanceContent extends Vue {
   };
 
   private timerOption = {
-    nextQuestion: 3000,
+    nextQuestion: 4000,
     showOverlay: 1000,
+    timeCnt: 1000,
   };
 
   reset() {
+    this.nextCnt = 4;
     this.isAllClick = false;
     this.overlay = false;
     this.select = null;
@@ -127,7 +131,9 @@ export default class BalanceContent extends Vue {
     this.completeA = false;
     this.completeB = false;
     clearTimeout(this.nextTimer);
+    clearInterval(this.cntTimer);
     this.nextTimer = setTimeout(() => {});
+    this.cntTimer = setTimeout(() => {});
   }
 
   initValueA(max: number) {
@@ -162,6 +168,10 @@ export default class BalanceContent extends Vue {
     this.nextTimer = setTimeout(() => {
       this.nextQuestion();
     }, this.timerOption.nextQuestion);
+
+    this.cntTimer = setInterval(() => {
+      this.nextCnt--;
+    }, 1000);
   }
 
   @Emit()
@@ -170,9 +180,14 @@ export default class BalanceContent extends Vue {
     this.select = type;
     this.isAllClick = true;
 
-    this.nextTimer = setTimeout(() => {
+    setTimeout(() => {
       this.overlay = true;
     }, this.timerOption.showOverlay);
+
+    // const interval = setInterval(() => {
+    //   if (interval <= 0) clearInterval(interval);
+    //   --this.nextCnt;
+    // }, 1000);
 
     return type;
   }
@@ -181,6 +196,10 @@ export default class BalanceContent extends Vue {
   nextQuestion() {
     this.reset();
   }
+
+  // get cnt(): number {
+  //   return;
+  // }
 
   get selectA(): boolean {
     return this.select === 'A';
