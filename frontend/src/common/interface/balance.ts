@@ -1,3 +1,5 @@
+import { balanceType } from '@/common/type/balance';
+
 export namespace Balance {
   export interface viewProp {
     label: string;
@@ -5,8 +7,8 @@ export namespace Balance {
   }
 
   export interface Setting {
-    typeA: 'A';
-    typeB: 'B';
+    typeA: balanceType;
+    typeB: balanceType;
   }
 
   export interface Question {

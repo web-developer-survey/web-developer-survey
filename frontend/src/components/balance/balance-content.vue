@@ -16,7 +16,7 @@
                   <v-icon
                     v-if="selectA"
                     color="white"
-                    size="48"
+                    size="36"
                     v-text="'mdi-check-circle-outline'"
                   ></v-icon>
                 </v-scale-transition>
@@ -49,7 +49,7 @@
                   <v-icon
                     v-if="selectB"
                     color="white"
-                    size="48"
+                    size="36"
                     v-text="'mdi-check-circle-outline'"
                   ></v-icon>
                 </v-scale-transition>
@@ -103,14 +103,14 @@ export default class BalanceContent extends Vue {
   private nextCnt: number = 4;
   private overlay: boolean = false;
   private isAllClick: boolean = false;
-  private select: balanceType;
 
   private resultA: number = 0;
   private resultB: number = 0;
   private completeA: boolean = false;
   private completeB: boolean = false;
+  select: balanceType;
 
-  private clickInfo: Balance.Setting = {
+  clickInfo: Balance.Setting = {
     typeA: 'A',
     typeB: 'B',
   };
@@ -177,18 +177,12 @@ export default class BalanceContent extends Vue {
   @Emit()
   clickAnswer(type: balanceType) {
     if (this.isAllClick) return;
-    this.select = type;
-    this.isAllClick = true;
 
+    this.setSelect(type);
+    this.isAllClick = true;
     setTimeout(() => {
       this.overlay = true;
     }, this.timerOption.showOverlay);
-
-    // const interval = setInterval(() => {
-    //   if (interval <= 0) clearInterval(interval);
-    //   --this.nextCnt;
-    // }, 1000);
-
     return type;
   }
 
@@ -197,16 +191,23 @@ export default class BalanceContent extends Vue {
     this.reset();
   }
 
+  setSelect(type: balanceType) {
+    this.select = type;
+    console.log(this.select, '클릭함');
+  }
+
   // get cnt(): number {
   //   return;
   // }
 
   get selectA(): boolean {
+    if (!this.isAllClick) return false;
     return this.select === 'A';
   }
 
   get selectB(): boolean {
-    return this.select === 'A';
+    if (!this.isAllClick) return false;
+    return this.select === 'B';
   }
 
   get parentHeight(): number {
