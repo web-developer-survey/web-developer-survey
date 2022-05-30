@@ -7,7 +7,7 @@
 
       <v-sheet
         max-width="800"
-        style="padding: 48px 0px 0px"
+        style="padding: 48px 0 0"
         class="ma-auto"
         elevation="3"
         color="grey"
@@ -27,11 +27,9 @@
                   </div>
                 </v-card-text>
               </v-card>
-
               <v-sheet max-height="420">
                 <slot name="content" />
               </v-sheet>
-
               <v-sheet height="150" v-if="true" color="grey" class="pa-1">
                 <slot name="banner" />
               </v-sheet>
@@ -55,7 +53,7 @@ export default class BalanceLayout extends Vue {}
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
-
+/*
 .font-title {
   background: #0f140f;
   color: rgba(125, 225, 125, 0.75);
@@ -63,6 +61,7 @@ export default class BalanceLayout extends Vue {}
   font-size: 18px;
   text-shadow: 0 0 5px rgba(125, 225, 125, 0.5), 0 0 15px rgba(125, 250, 125, 1);
 }
+*/
 
 .font-top-title {
   background: #0f140f;
@@ -86,13 +85,13 @@ export default class BalanceLayout extends Vue {}
 
 @keyframes gradient {
   0% {
-    background-position: 0% 50%;
+    background-position: 0 50%;
   }
   50% {
     background-position: 100% 50%;
   }
   100% {
-    background-position: 0% 50%;
+    background-position: 0 50%;
   }
 }
 
