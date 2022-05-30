@@ -1,5 +1,5 @@
 <template>
-  <v-card class="ma-auto pa-1" :width="width" :height="height" color="black"></v-card>
+  <v-card class="ma-auto pa-1 mt-1" :width="width" :height="height" color="black"></v-card>
 </template>
 
 <script lang="ts">

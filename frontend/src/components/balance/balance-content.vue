@@ -69,8 +69,16 @@
         </v-col>
       </v-row>
       <v-overlay absolute :value="overlay" @click="nextQuestion" class="pointer">
-        <v-card-title> 자동으로 다음 질문으로 넘어갑니다!...</v-card-title>
-        <v-card-subtitle><b class="click-pointer">클릭</b>시 바로 넘어갑니다!</v-card-subtitle>
+        <v-card-title
+          >자동으로 다음질문 넘어갑니다!
+          <v-icon>mdi-cat</v-icon>
+        </v-card-title>
+        <v-card-subtitle
+          ><b class="click-pointer">
+            <v-icon color="#ffea00">mdi-rodent</v-icon>
+            클릭</b
+          >시 바로 넘어갑니다!
+        </v-card-subtitle>
       </v-overlay>
     </v-card>
   </v-sheet>

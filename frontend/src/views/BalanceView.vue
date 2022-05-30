@@ -1,6 +1,6 @@
 <template>
   <balance-layout>
-    <template #title> {{ balanceQuestionInfo.idx }}.{{ title }} </template>
+    <template #title> {{ balanceQuestionInfo.idx }}.{{ title }}</template>
     <template #content>
       <balance-content
         ref="content"
@@ -11,13 +11,9 @@
         @next-question="getQuestionInfo"
       />
     </template>
-    <template #banner v-if="false">
-      <div>
-        <hr />
-        <banner height="50" width="300" />
-        <hr />
-        <banner height="100" width="300" />
-      </div>
+    <template #banner>
+      <banner height="50" width="300" />
+      <banner height="100" width="300" />
     </template>
   </balance-layout>
 </template>

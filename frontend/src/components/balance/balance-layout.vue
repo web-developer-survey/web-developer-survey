@@ -5,7 +5,13 @@
         <v-toolbar-title>Balance Game for Dev</v-toolbar-title>
       </v-app-bar>
 
-      <v-sheet max-width="800" style="padding: 48px 0px 0px" class="ma-auto" elevation="3">
+      <v-sheet
+        max-width="800"
+        style="padding: 48px 0px 0px"
+        class="ma-auto"
+        elevation="3"
+        color="grey"
+      >
         <v-row justify="center">
           <v-col cols="12">
             <v-sheet max-height="750" class="left v-alert__border--right">
@@ -26,7 +32,7 @@
                 <slot name="content" />
               </v-sheet>
 
-              <v-sheet height="150" v-if="true">
+              <v-sheet height="150" v-if="true" color="grey" class="pa-1">
                 <slot name="banner" />
               </v-sheet>
             </v-sheet>
