@@ -70,7 +70,7 @@
       </v-row>
       <v-overlay absolute :value="overlay" @click="nextQuestion" class="pointer">
         <v-card-title> 자동으로 다음 질문으로 넘어갑니다!...</v-card-title>
-        <v-card-subtitle>클릭시 바로 넘어갑니다!</v-card-subtitle>
+        <v-card-subtitle><b class="click-pointer">클릭</b>시 바로 넘어갑니다!</v-card-subtitle>
       </v-overlay>
     </v-card>
   </v-sheet>
@@ -207,12 +207,20 @@ export default class BalanceContent extends Vue {
   cursor: pointer;
 }
 
+.click-pointer {
+  color: #ffea00;
+}
+
 .font-content {
   background: #0f140f;
   color: rgba(125, 225, 125, 0.75);
   font-family: 'VT323', monospace;
   font-size: 1em;
   text-shadow: 0 0 5px rgba(125, 225, 125, 0.5), 0 0 15px rgba(125, 250, 125, 1);
+}
+
+.Pulse {
+  animation: Pulse 1.5s ease infinite;
 }
 
 @keyframes ScreenEffect {
@@ -237,10 +245,6 @@ export default class BalanceContent extends Vue {
   100% {
     background-position: 0% 50%;
   }
-}
-
-.Pulse {
-  animation: Pulse 1.5s ease infinite;
 }
 
 @keyframes Pulse {
