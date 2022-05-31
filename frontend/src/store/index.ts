@@ -16,10 +16,8 @@ export default new Vuex.Store({
   mutations: {
     setBalanceAnswer(state , idx:number = 0){
       console.log(localStorage.balanceAnswers,'test')
-
       state.balanceAnswers = localStorage.balanceAnswers || []
       state.balanceAnswers.push(idx)
-
     }
 
   },
