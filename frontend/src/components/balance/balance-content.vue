@@ -1,13 +1,13 @@
 <template>
   <v-sheet>
-    <v-card :max-height="cardHeight" tile color="grey">
+    <v-card v-if="sync_id" :max-height="cardHeight" tile color="grey">
       <v-row class="fill-height ma-0">
         <v-col :class="`overflow-hidden ${noneEventCss}`" cols="12" md="6">
           <v-sheet :height="parentHeight" @click="clickAnswer(clickInfo.typeA)">
             <balance-content-top text="A" />
             <v-card
               :height="syncHeight"
-              class="d-flex justify-center"
+              class="d-flex justify-center pa-3"
               color="#0F0F0F"
               style="align-items: center; overflow-y: auto"
             >
@@ -82,6 +82,11 @@
         </v-card-subtitle>
       </v-overlay>
     </v-card>
+    <v-card  v-else :height="cardHeight" tile >
+      <v-card-title>
+        <v-icon>mdi-dog</v-icon>
+        질문을 받아오는 중입니다.</v-card-title>
+    </v-card>
   </v-sheet>
 </template>
 
@@ -98,6 +103,7 @@ export default class BalanceContent extends Vue {
   @PropSync('labelA') syncLabelA: string;
   @PropSync('labelB') syncLabelB: string;
   @PropSync('height') syncHeight: number;
+  @PropSync('_id') sync_id: number;
   private nextTimer: ReturnType<typeof setTimeout> = setTimeout(() => {});
   private cntTimer: ReturnType<typeof setTimeout> = setTimeout(() => {});
   private nextCnt: number = 4;

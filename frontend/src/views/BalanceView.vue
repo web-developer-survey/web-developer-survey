@@ -5,6 +5,7 @@
       <balance-content
         ref="content"
         :height="customHeight"
+        :_id.sync="balanceQuestionInfo.idx"
         :label-a.sync="balanceQuestionInfo.labelA"
         :label-b.sync="balanceQuestionInfo.labelB"
         @click-answer="clickAnswer"
@@ -65,6 +66,8 @@ export default class BalanceView extends Vue {
 
   async created() {
     await this.getQuestionInfo();
+    const test = this.$store.getters.balanceAnswers;
+    console.log(test)
   }
 
   async getQuestionInfo(): Promise<void> {
@@ -88,6 +91,7 @@ export default class BalanceView extends Vue {
 
   async getResult() {
     const { data } = await this.axios.get(`/balance/answer/${this.balanceQuestionInfo.idx}`);
+
     this.content.initValueA(data.aAvg);
     this.content.initValueB(data.bAvg);
     this.content.complete();
