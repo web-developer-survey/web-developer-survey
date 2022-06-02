@@ -35,6 +35,8 @@
           </result-card>
         </div>
     </main>
+
+    <result-footer />
   </div>
 </template>
 
@@ -42,11 +44,13 @@
 import { Component, Vue } from 'vue-property-decorator';
 import ResultHeader from '@/components/result/result-header.vue'
 import ResultCard from '@/components/result/result-card.vue'
+import ResultFooter from '@/components/result/result-footer.vue'
 
 @Component({
   components: {
     ResultHeader,
-    ResultCard
+    ResultCard,
+    ResultFooter
   }
 })
 export default class ResultView extends Vue {
@@ -61,7 +65,7 @@ export default class ResultView extends Vue {
 
 <style lang="scss" scoped>
  // TODO: 글로벌 사용? 결과 페이지만?
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
 @import url('https://dun.land/pretendard/v1.3.3/pretendard.min.css');
 
 .result-view {
