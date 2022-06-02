@@ -7,7 +7,7 @@
       <!-- 목차 -->
       <result-card title="INDEX">
         <v-row class="no-gutters">
-          <v-col class="col-4">
+          <v-col class="d-flex align-center col-4" aria-hidden="true" role="presentation" tabindex="-1">
             <img src="@/assets/result/index.png" alt="" />
           </v-col>
 
