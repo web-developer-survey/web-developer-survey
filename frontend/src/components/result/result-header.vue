@@ -28,27 +28,27 @@ export default class ResultHeader extends Vue {}
 
 <style lang="scss" scoped>
 .result-header {
-    padding: 4rem 5rem;
-    border-bottom: 1px solid #eeeeee;
-    background-color: #ffffff;
+  padding: 4rem 5rem;
+  border-bottom: 1px solid #eeeeee;
+  background-color: #ffffff;
 
-    &__title {
-        font-size: 3rem;
-        font-weight: 700;
-        margin-bottom: 1em;
-        line-height: 1.25;
-        color: #484848;
-    }
+  &__title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1em;
+    line-height: 1.25;
+    color: #484848;
+  }
 
-    &__introduction {
-        font-size: 1rem;
-        font-weight: 400;
-        line-height: 1.75;
-        color: #757575;
-    }
+  &__introduction {
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.75;
+    color: #757575;
+  }
 
-    img {
-        max-width: 100%;
-    }
+  img {
+    max-width: 100%;
+  }
 }
 </style>
