@@ -1,10 +1,9 @@
 <template>
   <header class="result-header">
     <v-row class="no-gutters justify-space-between">
-      <v-col class="col-12">
-        <h1 class="result-header__title">웹 개발자 설문조사</h1>
-      </v-col>
       <v-col class="col-12 col-md-6 col-lg-7">
+        <h1 class="result-header__title">웹 개발자 설문조사</h1>
+
         <p class="result_header__introduction">
           토끼, 내 별 내린 거외다. 하나에 겨울이 하늘에는 묻힌 차 거외다. 동경과 다 슬퍼하는 강아지, 책상을 이름자를 멀듯이, 별이 까닭입니다. 내 노루, 가슴속에 사랑과 남은 다하지 까닭입니다. 아무 별빛이 별을 봅니다. 많은 별 강아지, 부끄러운 우는 있습니다. 하나에 내 이름과, 봅니다. 그러나 밤이 잠, 비둘기, 새겨지는 밤을 있습니다. 강아지, 동경과 별 무성할 피어나듯이 언덕 하나에 슬퍼하는 사람들의 까닭입니다.
         </p>
