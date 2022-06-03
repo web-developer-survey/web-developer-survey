@@ -68,7 +68,10 @@ export default class BalanceView extends Vue {
   }
 
   async getQuestionInfo(): Promise<void> {
-    const { data } = (await this.axios.get(`/balance/question`)) as { data: Balance.Question };
+    const sendData = {
+      balanceAnswers: this.$store.getters.balanceAnswersIdx,
+    };
+    const { data } = (await this.axios.post(`/balance/question`, sendData)) as { data: Balance.Question };
     this.balanceQuestionInfo = data;
   }
 
@@ -83,6 +86,7 @@ export default class BalanceView extends Vue {
   async clickAnswer(type: balanceType) {
     const sendData = this.getSendData(type);
     await this.axios.post(`/balance/answer`, sendData);
+    this.$store.commit('balanceVote', this.balanceQuestionInfo.idx);
     await this.getResult();
   }
 
