@@ -1,7 +1,7 @@
 <template>
   <balance-layout>
-    <template #title> {{ balanceQuestionInfo.idx }}.{{ title }}</template>
-    <template #content>
+    <template v-if="balanceQuestionInfo.idx" #title> {{ balanceQuestionInfo.idx }}.{{ title }}</template>
+    <template v-if="balanceQuestionInfo.idx" #content>
       <balance-content
         ref="content"
         :height="customHeight"
@@ -10,6 +10,22 @@
         @click-answer="clickAnswer"
         @next-question="getQuestionInfo"
       />
+    </template>
+    <template v-else #content>
+      <v-sheet>
+        <v-card color="#385F73" dark tile>
+          <v-card-title class="text-h5">
+            <v-icon> mdi-emoticon-cry-outline</v-icon>
+            No Result.
+          </v-card-title>
+
+          <v-card-subtitle>현재 등록된 밸런스게임이 없습니다.</v-card-subtitle>
+
+          <v-card-actions>
+            <v-btn color="#000"> 등록 해보기</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-sheet>
     </template>
     <template #banner>
       <banner height="50" width="300" />
@@ -64,6 +80,8 @@ export default class BalanceView extends Vue {
   }
 
   async created() {
+    console.log(this.balanceQuestionInfo);
+
     await this.getQuestionInfo();
   }
 
