@@ -1,4 +1,6 @@
-export const sampleQuestion = [
+import { Survey } from '@/interface/survey-question';
+
+export const sampleQuestion: Survey.Question[] = [
   {
     surveyId: 1,
     step: 1,
