@@ -1,31 +1,27 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import createPersistedState from 'vuex-persistedstate';
 
 Vue.use(Vuex);
+export const state: { balanceAnswersIdx: number[] } = {
+  balanceAnswersIdx: [],
+};
 
 export default new Vuex.Store({
-  state: {
-    balanceAnswers: [0],
-  },
+  plugins: [createPersistedState()],
+  state,
   getters: {
-    balanceAnswers: (state) => {
-      return state.balanceAnswers
-    },
-
-  },
-  mutations: {
-    setBalanceAnswer(state , idx:number = 0){
-      console.log(localStorage.balanceAnswers,'test')
-      state.balanceAnswers = localStorage.balanceAnswers || []
-      state.balanceAnswers.push(idx)
-    }
-
+    balanceAnswersIdx: (state) => state.balanceAnswersIdx,
   },
   actions: {
-    setBalanceIdx({ commit }, idx){
-      commit('setBalanceAnswer',idx)
-    }
-
+    balanceVote({ commit }, questionIdx) {
+      commit('balanceAnswersIdx', questionIdx);
+    },
+  },
+  mutations: {
+    balanceVote(state, questionIdx) {
+      state.balanceAnswersIdx.push(questionIdx);
+    },
   },
   modules: {},
 });

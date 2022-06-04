@@ -11,9 +11,12 @@ export class BalanceQuestionService {
     return 'This action adds a new balanceQuestion';
   }
 
+  async findQuestion(balanceAnswers: number[]) {
+    return await this.balanceQuestionRepo.findAll(balanceAnswers);
+  }
+
   async findAll() {
-    return await this.balanceQuestionRepo.findAll();
-    // return `This action returns all balanceQuestion`;
+    return 'find all';
   }
 
   findOne(id: number) {
