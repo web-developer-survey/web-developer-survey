@@ -2,11 +2,12 @@ export namespace Survey {
   export interface Question {
     surveyId: number;
     step: number;
+    maxStep: number;
     seq: number;
     title: string;
     type: string;
     name: string;
-    viewInfo: [];
+    viewInfo: ViewInfo[];
     desc: string;
     maxValue: number;
     minValue: number;
