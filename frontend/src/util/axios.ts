@@ -1,6 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import Vuex from '../store';
-import Vue from 'vue';
+import { Vue } from 'vue-property-decorator';
 
 const baseURL = '/api';
 
@@ -22,20 +21,18 @@ instance.interceptors.request.use((config: AxiosRequestConfig) => {
 instance.interceptors.response.use(
   (response: AxiosResponse) => {
     const { data } = response;
-    const { result, error } = data; //
-
+    const { result, error } = data;
     return response;
   },
   (error) => {
     const { response } = error;
     const { status, data } = response;
-    console.log(data.message);
-    // Vue.$toast.open({
-    //   message: data.message,
-    //   type: 'error',
-    //   duration: 5000
-    // });
 
+    Vue.$toast.open({
+      message: data.message,
+      type: 'error',
+      duration: 5000,
+    });
     return response;
   },
 );
