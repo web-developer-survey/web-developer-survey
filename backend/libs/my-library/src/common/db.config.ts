@@ -19,6 +19,8 @@ export const enum CollectionInfo {
 
   QUESTION_ANSWER = 'SurveyAnswer',
   BALANCE_ANSWER = 'BalanceAnswer',
+
+  ERROR = 'Error',
 }
 
 export const enum WebBalanceCollectionInfo {
