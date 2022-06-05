@@ -6,9 +6,7 @@ import { CreateBalanceAnswerDto } from '@app/api/balance/balance-answer/dto/crea
 
 @Injectable()
 export class BalanceAnswerRepository {
-  constructor(
-    @InjectModel(AnswerBalanceSchema.name) private balanceAnswerModel: Model<AnswerBalanceSchema>,
-  ) {}
+  constructor(@InjectModel(AnswerBalanceSchema.name) private balanceAnswerModel: Model<AnswerBalanceSchema>) {}
 
   async create(createBalanceAnswerDto: CreateBalanceAnswerDto) {
     await new this.balanceAnswerModel({
@@ -39,12 +37,8 @@ export class BalanceAnswerRepository {
       },
     };
 
-    const [data] = await this.balanceAnswerModel.aggregate([
-      $match,
-      $project_match,
-      $group,
-      $project_result,
-    ]);
+    const [data] = await this.balanceAnswerModel.aggregate([$match, $project_match, $group, $project_result]);
+
     return data;
   }
 }
