@@ -2,13 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { CreateBalanceAnswerDto } from './dto/create-balance-answer.dto';
 import { UpdateBalanceAnswerDto } from './dto/update-balance-answer.dto';
 import { BalanceAnswerRepository } from '@app/api/balance/balance-answer/balance.answer.repository';
+import { IpInfo } from '@app/my-library/interface/decorator/ip-info';
 
 @Injectable()
 export class BalanceAnswerService {
   constructor(private balanceAnswerRepo: BalanceAnswerRepository) {}
 
-  async create(createBalanceAnswerDto: CreateBalanceAnswerDto) {
-    await this.balanceAnswerRepo.create(createBalanceAnswerDto);
+  async create(createBalanceAnswerDto: CreateBalanceAnswerDto, ipInfo: IpInfo) {
+    await this.balanceAnswerRepo.create(createBalanceAnswerDto, ipInfo);
     return 'This action adds a new balanceAnswer';
   }
 

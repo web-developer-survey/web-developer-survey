@@ -12,6 +12,12 @@ export class AnswerBalanceSchema extends Document {
 
   @Prop({ required: false, type: Number })
   value: number;
+
+  @Prop({ required: false, type: String })
+  userIp: string;
+
+  @Prop({ required: false, type: String })
+  userAgent: string;
 }
 
 export const AnswerBalanceFactory = createFeature(AnswerBalanceSchema);

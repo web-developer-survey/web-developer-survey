@@ -1,6 +1,6 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 
-export const AnswerInfo = createParamDecorator((data: string, ctx: ExecutionContext) => {
+export const IpInfoDeco = createParamDecorator((data: string, ctx: ExecutionContext) => {
   const request = ctx.switchToHttp().getRequest();
   const headers = request.headers;
 

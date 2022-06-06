@@ -4,8 +4,8 @@
     <template v-if="balanceQuestionInfo.idx" #content>
       <balance-content
         ref="content"
-        :height="customHeight"
         :_id.sync="balanceQuestionInfo.idx"
+        :height="customHeight"
         :label-a.sync="balanceQuestionInfo.labelA"
         :label-b.sync="balanceQuestionInfo.labelB"
         @click-answer="clickAnswer"
@@ -23,7 +23,7 @@
           <v-card-subtitle>현재 등록된 밸런스게임이 없습니다.</v-card-subtitle>
 
           <v-card-actions>
-            <v-btn color="#000"> 등록 해보기</v-btn>
+            <v-btn color="#000" @click="test"> 등록 해보기</v-btn>
           </v-card-actions>
         </v-card>
       </v-sheet>
@@ -80,12 +80,16 @@ export default class BalanceView extends Vue {
     }
   }
 
+  async test() {
+    const { data } = await this.axios.get('/balance/answer');
+  }
+
   async created() {
     console.log(this.balanceQuestionInfo);
 
     await this.getQuestionInfo();
     const test = this.$store.getters.balanceAnswers;
-    console.log(test)
+    console.log(test);
   }
 
   async getQuestionInfo(): Promise<void> {
