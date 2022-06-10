@@ -3,10 +3,10 @@
     <v-container class="justify-center">
       <v-card class="ma-auto" elevation="1" outlined width="800">
         <v-app-bar color="rgba(0, 0, 0, 0)" flat>
-          <v-icon color="purple darken-2"> mdi-dialpad </v-icon>
-          <v-toolbar-title class="text-h6 font-weight-bold pl-0"> 설문에 참여해주세요! </v-toolbar-title>
+          <v-icon color="purple darken-2"> mdi-dialpad</v-icon>
+          <v-toolbar-title class="text-h6 font-weight-bold pl-0"> 설문에 참여해주세요!</v-toolbar-title>
 
-          <v-spacer> </v-spacer>
+          <v-spacer></v-spacer>
 
           <v-btn color="white" icon>
             <v-icon>mdi-dots-vertical</v-icon>
@@ -17,8 +17,9 @@
           lazy-src="https://pbs.twimg.com/media/DP8PRviVQAA6oJZ?format=jpeg"
           max-height="500"
           max-width="500"
-          src="https://pbs.twimg.com/media/DP8PRviVQAA6oJZ?format=png"
+          src="@/assets/main-page.png"
         />
+        <!--          src="https://pbs.twimg.com/media/DP8PRviVQAA6oJZ?format=png"-->
         <v-divider class="mx-4 ma-2"></v-divider>
         <v-list dense nav shaped>
           <v-list-item v-for="item in items" :key="item.title" :href="item.href" link>
