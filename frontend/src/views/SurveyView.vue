@@ -1,5 +1,5 @@
 <template>
-  <v-card outlined elevation="2" :loading="loading" class="mx-auto my-12">
+  <v-card :loading="loading" class="mx-auto my-12" elevation="2" outlined>
     <template #progress>
       <v-progress-linear color="deep-purple" height="20" indeterminate></v-progress-linear>
     </template>
@@ -8,7 +8,7 @@
 
     <v-card-text>
       <div class="my-4 text-subtitle-1 pa-2">
-        <v-alert outlined color="primary">
+        <v-alert color="primary" outlined>
           <div class="text-h6">Description</div>
           <div v-html="questionInfo.description" />
         </v-alert>
@@ -27,21 +27,26 @@
     <v-divider class="mx-4"></v-divider>
 
     <div class="text-center pa-2">
-      <v-btn class="ma-1" color="secondary lighten-2" @click="reserve"> 이전(PREV) </v-btn>
-      <v-btn class="ma-1" color="primary lighten-2" @click="reserve"> 다음(NEXT) </v-btn>
+      <v-btn class="ma-1" color="secondary lighten-2" @click="reserve"> 이전(PREV)</v-btn>
+      <v-btn class="ma-1" color="primary lighten-2" @click="reserve"> 다음(NEXT)</v-btn>
     </div>
   </v-card>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import {Survey} from "@/interface/survey-question";
+import {sampleQuestion} from "@/util/default-setting/sample/sample-question";
 
 @Component({
   components: {},
 })
-export default class QuestionView extends Vue {
+export default class SurveyView extends Vue {
   private message: string = '';
   private loading: boolean = false;
+  private surveyQuestions: Survey.Question[] = sampleQuestion;
+
+
   private questionInfo = {
     qName: 'Q1',
     title: '안녕하세요 귀하께서는 웹 개발자 이신가요?',
@@ -53,13 +58,13 @@ export default class QuestionView extends Vue {
     value: null,
   };
 
+  get questionTitle(): string {
+    return `${this.questionInfo.qName}. ${this.questionInfo.title} `;
+  }
+
   created() {
     const routerName = this.$route.name;
     console.log(routerName);
-  }
-
-  get questionTitle(): string {
-    return `${this.questionInfo.qName}. ${this.questionInfo.title} `;
   }
 
   async mounted() {
@@ -67,8 +72,8 @@ export default class QuestionView extends Vue {
   }
 
   async getLoadTest() {
-    const { data } = await this.axios.get(`/survey`);
-    this.message = data;
+    // const { data } = await this.axios.get(`/survey`);
+    // this.message = data;
   }
 
   reserve() {

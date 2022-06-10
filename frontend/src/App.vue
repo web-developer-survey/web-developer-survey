@@ -11,12 +11,12 @@
 import Vue from 'vue';
 import Header from '@/components/survey/Header.vue';
 import Component from 'vue-class-component';
-import QuestionView from '@/views/QuestionView.vue';
+import SurveyView from '@/views/SurveyView.vue';
 import MainLayout from '@/components/survey/MainLayout.vue';
 
 @Component({
   components: {
-    QuestionView,
+    QuestionView: SurveyView,
     MainLayout,
     Header,
   },
