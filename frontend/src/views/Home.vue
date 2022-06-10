@@ -19,7 +19,6 @@
           max-width="500"
           src="@/assets/main-page.png"
         />
-        <!--          src="https://pbs.twimg.com/media/DP8PRviVQAA6oJZ?format=png"-->
         <v-divider class="mx-4 ma-2"></v-divider>
         <v-list dense nav shaped>
           <v-list-item v-for="item in items" :key="item.title" :href="item.href" link>
