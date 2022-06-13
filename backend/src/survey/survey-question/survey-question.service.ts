@@ -1,10 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { CreateSurveyQuestionDto } from './dto/create-survey-question.dto';
 import { UpdateSurveyQuestionDto } from './dto/update-survey-question.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { QuestionSurveySchema } from '@app/my-library/models/survey/question.survey.schema';
 
 @Injectable()
 export class SurveyQuestionService {
-  create(createSurveyQuestionDto: CreateSurveyQuestionDto) {
+  constructor(@InjectModel(QuestionSurveySchema.name) private questionSurveySchema: Model<QuestionSurveySchema>) {}
+
+  async create(createSurveyQuestionDto: any) {
+    // await this.questionSurveySchema.insertMany(createSurveyQuestionDto);
     return 'This action adds a new surveyQuestion';
   }
 
