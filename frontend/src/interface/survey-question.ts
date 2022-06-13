@@ -24,7 +24,7 @@ export namespace Survey {
   export interface ViewInfo {
     label: string;
     value: number;
-    addText: true;
+    addText: boolean;
     isAllDisable: boolean;
   }
 }

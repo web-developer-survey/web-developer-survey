@@ -1,14 +1,18 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { SurveyQuestionService } from './survey-question.service';
-import { CreateSurveyQuestionDto } from './dto/create-survey-question.dto';
 import { UpdateSurveyQuestionDto } from './dto/update-survey-question.dto';
 
-@Controller('survey-question')
+@Controller('/survey/question')
 export class SurveyQuestionController {
   constructor(private readonly surveyQuestionService: SurveyQuestionService) {}
 
+  /**
+   * 질문 넣기용
+   * @param createSurveyQuestionDto
+   */
+
   @Post()
-  create(@Body() createSurveyQuestionDto: CreateSurveyQuestionDto) {
+  create(@Body() createSurveyQuestionDto: any) {
     return this.surveyQuestionService.create(createSurveyQuestionDto);
   }
 
