@@ -5,7 +5,7 @@
         <v-row>
           <v-col cols="12">
             <v-subheader>📝웹 개발자 설문조사</v-subheader>
-<!--            <v-btn @click="senDClick">테이터 생성</v-btn>-->
+            <!--            <v-btn @click="senDClick">테이터 생성</v-btn>-->
           </v-col>
           <v-col cols="12">
             <v-divider />
@@ -56,7 +56,6 @@ export default class SurveyView extends Vue {
   created() {
     const routerName = this.$route.name;
   }
-
 
   // async senDClick() {
   //   const { data } = await this.axios.post('/survey/question', this.surveyQuestions);
