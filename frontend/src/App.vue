@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import SurveyView from '@/vi ews/SurveyView.vue';
+import SurveyView from '@/views/SurveyView.vue';
 
 @Component({
   components: {
