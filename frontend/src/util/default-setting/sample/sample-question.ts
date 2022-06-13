@@ -121,7 +121,14 @@ export const sampleQuestion: Survey.Question[] = [
     title: '귀하께서 “주로 쓰시는” Backend 프레임워크에 대해 선택해주십시오',
     type: 'CHECKBOX',
     name: 'Q7',
-    viewInfo: [],
+    viewInfo: [
+      {
+        label:'test',
+        value:1,
+        addText:true,
+        isAllDisable: false,
+      }
+    ],
     desc: '',
     maxValue: 0,
     minValue: 0,
