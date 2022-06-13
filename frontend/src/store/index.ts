@@ -18,7 +18,7 @@ export default new Vuex.Store({
   },
   actions: {
     balanceVote({ commit }, questionIdx) {
-      commit('balanceAnswersIdx', questionIdx);
+      commit('ba lanceAnswersIdx', questionIdx);
     },
   },
   mutations: {
