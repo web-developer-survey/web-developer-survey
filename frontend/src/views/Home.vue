@@ -21,7 +21,13 @@
         />
         <v-divider class="mx-4 ma-2"></v-divider>
         <v-list dense nav shaped>
-          <v-list-item v-for="item in items" :key="item.title" :href="item.href" link>
+          <v-list-item
+            v-for="(item, itemIdx) in items"
+            :key="item.title"
+            :href="item.href"
+            :target="!itemIdx ? 'blank' : ''"
+            link
+          >
             <v-list-item-icon>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-item-icon>
