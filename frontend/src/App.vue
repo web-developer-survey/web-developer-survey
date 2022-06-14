@@ -1,6 +1,6 @@
 <template>
-  <v-app>
-    <router-view />
+  <v-app >
+    <router-view id="#app" />
   </v-app>
 </template>
 
@@ -17,4 +17,9 @@ export default class App extends Vue {
   created() {}
 }
 </script>
-<style></style>
+<style>
+
+.border-left-2196f3{
+  border-left: 5px solid #2196f3 !important;
+}
+</style>
