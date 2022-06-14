@@ -1,7 +1,7 @@
 <template>
   <v-main class="grey lighten-3">
     <v-container>
-      <v-sheet class="mx-auto" max-width="800px" min-height="98vh" rounded="lg">
+      <v-sheet class="mx-auto" max-width="800px" min-height="80vh" rounded="lg">
         <v-row>
           <v-col cols="12">
             <v-subheader>
@@ -11,7 +11,6 @@
             <v-progress-linear :value="gage" class="px-15" color="primary" height="25">
               <strong>{{ gage }}%</strong>
             </v-progress-linear>
-            <!--            <v-btn @click="senDClick">테이터 생성</v-btn>-->
           </v-col>
           <v-col :key="step" cols="12">
             <v-divider />
@@ -22,13 +21,16 @@
                   {{ item.title }}
                 </v-card-title>
                 <v-divider class="text-left" />
-                <v-alert v-if="item.desc" class="pa-5" text tile>
+                <!-- 설명문 -->
+                <v-alert v-if="item.desc" color="blue-grey" dark dense prominent>
                   <v-card-text v-html="item.desc"></v-card-text>
                 </v-alert>
+                <!-- 설명문 -->
+
                 <v-card-text>
+                  <!-- 컴플릿 type -->
                   <template v-if="item.type === 'COMPLETE'">
-                    <!--후보 1 -->
-                    <v-radio-group class="text-center" row>
+                    <v-radio-group row>
                       <v-radio
                         v-for="(labelInfo, labelIdx) in item.viewInfo"
                         :key="item.seq + '-' + labelInfo.value"
@@ -40,9 +42,10 @@
                         </template>
                       </v-radio>
                     </v-radio-group>
-
                   </template>
+                  <!-- 컴플릿 type -->
 
+                  <!-- 라디오 type -->
                   <template v-if="item.type === 'RADIO'">
                     <v-radio-group>
                       <v-radio
@@ -64,14 +67,17 @@
                       </v-radio>
                     </v-radio-group>
                   </template>
+                  <!-- 라디오 type -->
                 </v-card-text>
 
                 <v-divider />
               </v-card>
-              <v-sheet height="200px" />
-
+              <v-sheet height="100px" />
               <v-sheet class="text-center">
                 <v-row align-content="center" justify="center">
+                  <v-col cols="12">
+                    <v-divider />
+                  </v-col>
                   <v-col cols="6">
                     <v-btn block color="indigo darker-3" dark large @click="vote">Next(다음)</v-btn>
                   </v-col>
@@ -94,9 +100,6 @@ import { sampleQuestion, viewInfo } from '@/util/default-setting/sample/sample-q
   components: {},
 })
 export default class SurveyView extends Vue {
-  private message: string = '';
-  private loading: boolean = false;
-  private row: number = 0;
   private step: number = 1;
   private viewInfo = viewInfo;
   private surveyQuestions: Survey.Question[] = sampleQuestion;
@@ -106,22 +109,16 @@ export default class SurveyView extends Vue {
   }
 
   get gage(): number {
-    return this.step * 10;
+    return (this.step - 1) * 10;
   }
-
-  // async senDClick() {
-  //   const { data } = await this.axios.post('/survey/question', this.surveyQuestions);
-  // }
 
   created() {
     const routerName = this.$route.name;
   }
 
   async mounted() {
-    // await this.getLoadTest();
     this.surveyQuestions = this.surveyQuestions.map((item1, idx) => {
       const findViewInfo = viewInfo.filter((v) => v.questionSEQ === item1.seq);
-      //
       const custom = findViewInfo.map((item) => {
         const { questionSEQ, isAllDisable, value, label, addText } = item;
 
@@ -140,16 +137,10 @@ export default class SurveyView extends Vue {
     });
   }
 
-  async getLoadTest() {}
-
   vote() {
-    if (this.step >= 10) return;
+    if (this.step >= 11) return;
     this.$vuetify.goTo(0, { duration: 300 });
     this.step++;
-  }
-
-  reserve() {
-    console.log('버튼 클릭');
   }
 }
 </script>
