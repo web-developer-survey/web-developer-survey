@@ -28,9 +28,10 @@
 
                   <template v-if="item.type==='COMPLETE' ">
 
-                      <v-radio-group row>
+                    <!--후보 1 -->
+                      <v-radio-group class="text-center" row>
                         <v-radio
-                            class=" col-md-6 ma-0 col-sm-12"
+                            class=" col-md-6 ma-0 pa-0 col-sm-12"
                             v-for="(labelInfo,labelIdx) in item.viewInfo" :key="item.seq + '-' + labelInfo.value"
                           :value="labelIdx"
                       ><template #label>
@@ -38,6 +39,19 @@
                         </template>
                         </v-radio>
                       </v-radio-group>
+
+                    <!-- 후보 2 -->
+<!--                    <v-row>-->
+<!--                      <v-col md="6" sm="12" v-for="(labelInfo,labelIdx) in item.viewInfo" :key="item.seq + '-' + labelInfo.value">-->
+<!--                        <v-btn-->
+<!--                            dark-->
+<!--                            block-->
+<!--                          :color="!labelIdx?'teal darker-1':'grey  darken-1' "-->
+<!--                        >{{labelInfo.label}}</v-btn>-->
+<!--                      </v-col>-->
+<!--                    </v-row>-->
+
+
 
                   </template>
 

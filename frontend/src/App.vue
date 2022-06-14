@@ -20,6 +20,6 @@ export default class App extends Vue {
 <style>
 
 .border-left-2196f3{
-  border-left: 5px solid #2196f3 !important;
+  border-left: 5px solid #1976D2 !important;
 }
 </style>
