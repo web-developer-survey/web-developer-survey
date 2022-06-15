@@ -9,6 +9,7 @@ export class BalanceQuestionController {
 
   @Post()
   findQuestion(@Body() { balanceAnswers }: FindBalanceQuestionDto) {
+    console.log('---진입---');
     return this.balanceQuestionService.findQuestion(balanceAnswers);
   }
 
