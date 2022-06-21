@@ -3,10 +3,12 @@ import { MyLibraryService } from './my-library.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { dbSurveyOption } from '@app/my-library/common/db.config';
 import {ConfigModule, ConfigService} from "@nestjs/config";
+import { ErrorModule } from './error/error.module';
 
 @Module({
   imports: [
     MongooseModule.forRootAsync(dbSurveyOption),
+    ErrorModule,
     //#TODO 추후 추가
     // ThrottlerModule.forRootAsync({
     //   imports: [ConfigModule],

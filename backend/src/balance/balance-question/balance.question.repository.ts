@@ -19,6 +19,8 @@ export class BalanceQuestionRepository {
       { $sample: { size: 1 } },
     ]);
 
+    if(!survey) throw new Error('등록된 질문이 없습니다.');
+
     const { title, idx, labelA, labelB } = survey;
     return {
       title,
