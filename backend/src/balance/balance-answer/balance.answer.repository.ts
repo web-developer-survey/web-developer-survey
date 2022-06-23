@@ -7,22 +7,18 @@ import { IpInfo } from '@app/my-library/interface/decorator/ip-info';
 
 @Injectable()
 export class BalanceAnswerRepository {
-  constructor(
-      // @InjectModel(AnswerBalanceSchema.name) private balanceAnswerModel: Model<AnswerBalanceSchema>
-  ) {}
+  constructor(@InjectModel(AnswerBalanceSchema.name) private balanceAnswerModel: Model<AnswerBalanceSchema>) {}
 
   async create(createBalanceAnswerDto: CreateBalanceAnswerDto, ipInfo: IpInfo) {
-    // await new this.balanceAnswerModel({
-    //   _id: new Types.ObjectId(),
-    //   ...createBalanceAnswerDto,
-    //   ...ipInfo,
-    // }).save();
+    await new this.balanceAnswerModel({
+      _id: new Types.ObjectId(),
+      ...createBalanceAnswerDto,
+      ...ipInfo,
+    }).save();
   }
 
   async findOne(idx: number) {
-    const $match = {
-      $match: {  }
-  };
+    const $match = { $match: { idx } };
     const $project_match = {
       $project: {
         _id: '$idx',
@@ -43,8 +39,8 @@ export class BalanceAnswerRepository {
       },
     };
 
-    // const [data] = await this.balanceAnswerModel.aggregate([$match, $project_match, $group, $project_result]);
-    //
-    // return data;
+    const [data] = await this.balanceAnswerModel.aggregate([$match, $project_match, $group, $project_result]);
+
+    return data;
   }
 }

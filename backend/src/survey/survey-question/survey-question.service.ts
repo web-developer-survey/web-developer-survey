@@ -6,9 +6,7 @@ import { QuestionSurveySchema } from '@app/my-library/models/survey/question.sur
 
 @Injectable()
 export class SurveyQuestionService {
-  constructor(
-      // @InjectModel(QuestionSurveySchema.name) private questionSurveySchema: Model<QuestionSurveySchema>
-  ) {}
+  constructor(@InjectModel(QuestionSurveySchema.name) private questionSurveySchema: Model<QuestionSurveySchema>) {}
 
   async create(createSurveyQuestionDto: any) {
     // await this.questionSurveySchema.insertMany(createSurveyQuestionDto);

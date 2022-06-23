@@ -15,11 +15,9 @@ export class BalanceQuestionRepository {
 
   async findAll(balanceAnswers: number[]) {
     const [survey] = await this.balanceModel.aggregate([
-      // { $match: { idx: { $nin: balanceAnswers } } },
+      { $match: { idx: { $nin: balanceAnswers } } },
       { $sample: { size: 1 } },
     ]);
-
-    if(!survey) throw new Error('등록된 질문이 없습니다.');
 
     const { title, idx, labelA, labelB } = survey;
     return {
