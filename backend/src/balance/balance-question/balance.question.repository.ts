@@ -15,7 +15,7 @@ export class BalanceQuestionRepository {
 
   async findAll(balanceAnswers: number[]) {
     const [survey] = await this.balanceModel.aggregate([
-      { $match: { idx: { $nin: balanceAnswers } } },
+      // { $match: { idx: { $nin: balanceAnswers } } },
       { $sample: { size: 1 } },
     ]);
 
