@@ -1,5 +1,5 @@
 <template>
-  <v-app >
+  <v-app>
     <router-view id="#app" />
   </v-app>
 </template>
@@ -18,8 +18,7 @@ export default class App extends Vue {
 }
 </script>
 <style>
-
-.border-left-2196f3{
-  border-left: 5px solid #1976D2 !important;
+.border-left-2196f3 {
+  border-left: 5px solid #1976d2 !important;
 }
 </style>

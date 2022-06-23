@@ -14,7 +14,6 @@ const instance: AxiosInstance = axios.create({
 instance.interceptors.request.use((config: AxiosRequestConfig) => {
   // const token = Vuex.getters.getAccessToken;
   // if (token) config?.headers['Authorization'] = `Bearer ${token}`;
-
   return config;
 });
 
