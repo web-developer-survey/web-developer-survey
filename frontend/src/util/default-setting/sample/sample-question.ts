@@ -1,5 +1,13 @@
 import { Survey } from '@/interface/survey-question';
 
+export type FirstString = 'Q';
+export type DigitTen1to4 = '1' | '2' | '3' | '4';
+export type Digit = DigitTen1to4 | '5' | '6' | '7' | '8' | '9';
+
+export type QuestionName = `${FirstString}${DigitTen1to4}${'' | '0' | Digit}`;
+
+const resultData = [];
+export type regNumber = `Q${number}`;
 export const sampleQuestion: Survey.Question[] = [
   {
     surveyId: 1,
