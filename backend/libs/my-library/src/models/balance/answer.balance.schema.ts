@@ -1,6 +1,6 @@
-import { CollectionInfo, createFeature } from '@app/my-library/common/db.config';
 import { Prop, Schema } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { CollectionInfo, createFeature } from '@app/my-library/common/db.config';
 
 @Schema({ collection: CollectionInfo.BALANCE_ANSWER })
 export class AnswerBalanceSchema extends Document {

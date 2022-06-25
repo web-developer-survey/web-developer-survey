@@ -22,7 +22,7 @@ export class BalanceAnswerService {
   }
 
   update(id: number, updateBalanceAnswerDto: UpdateBalanceAnswerDto) {
-    return `This action updates a #${id} balanceAnswer`;
+    // return `This action updates a #${id} balanceAnswer`;
   }
 
   remove(id: number) {

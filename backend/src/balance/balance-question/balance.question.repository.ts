@@ -18,7 +18,6 @@ export class BalanceQuestionRepository {
       { $match: { idx: { $nin: balanceAnswers } } },
       { $sample: { size: 1 } },
     ]);
-
     const { title, idx, labelA, labelB } = survey;
     return {
       title,
