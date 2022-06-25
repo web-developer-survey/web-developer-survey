@@ -21,6 +21,7 @@
                   {{ item.title }}
                 </v-card-title>
                 <v-divider class="text-left" />
+
                 <!-- 설명문 -->
                 <v-alert v-if="item.desc" color="blue-grey" dark dense prominent>
                   <v-card-text v-html="item.desc"></v-card-text>
@@ -28,9 +29,12 @@
                 <!-- 설명문 -->
 
                 <v-card-text>
+                  <!-- 설문지 -->
+
+                  {{ testObj }}
                   <!-- 컴플릿 type -->
                   <template v-if="item.type === 'COMPLETE'">
-                    <v-radio-group row>
+                    <v-radio-group v-model="testObj[item.name]" row>
                       <v-radio
                         v-for="(labelInfo, labelIdx) in item.viewInfo"
                         :key="item.seq + '-' + labelInfo.value"
@@ -42,12 +46,15 @@
                         </template>
                       </v-radio>
                     </v-radio-group>
+                    <!-- #TODO: 추후 에러메시지 컴포넌트화 -->
+                    <p v-if="false" class="error">에러메세지 입니다.</p>
                   </template>
                   <!-- 컴플릿 type -->
 
                   <!-- 라디오 type -->
-                  <template v-if="item.type === 'RADIO'">
-                    <v-radio-group>
+                  <template v-if="item.type === 'RADIO' && item.name === 'Q1'">
+                    {{ item }}
+                    <v-radio-group v-model="testObj[item.name]">
                       <v-radio
                         v-for="labelInfo in item.viewInfo"
                         :key="item.seq + '-' + labelInfo.value"
@@ -79,7 +86,7 @@
                     <v-divider />
                   </v-col>
                   <v-col cols="6">
-                    <v-btn block color="indigo darker-3" dark large @click="vote">Next(다음)</v-btn>
+                    <v-btn block color="indigo darker-3" dark large @click="validate">Next(다음)</v-btn>
                   </v-col>
                 </v-row>
               </v-sheet>
@@ -94,15 +101,18 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { Survey } from '@/interface/survey-question';
-import { sampleQuestion, viewInfo } from '@/util/default-setting/sample/sample-question';
+import { QuestionName, sampleQuestion, viewInfo } from '@/util/default-setting/sample/sample-question';
 
 @Component({
   components: {},
 })
 export default class SurveyView extends Vue {
   private step: number = 1;
-  private viewInfo = viewInfo;
   private surveyQuestions: Survey.Question[] = sampleQuestion;
+  private answerData: Map<QuestionName, number[]> = new Map();
+  private testObj: any = {
+    Q1: 0,
+  };
 
   get stepQuestion(): Survey.Question[] {
     return this.surveyQuestions.filter((question) => question.step === this.step);
@@ -114,6 +124,11 @@ export default class SurveyView extends Vue {
 
   created() {
     const routerName = this.$route.name;
+  }
+
+  testObjShow() {
+    console.log(this.testObj);
+    return 'aaa';
   }
 
   async mounted() {
@@ -135,6 +150,14 @@ export default class SurveyView extends Vue {
         viewInfo: custom,
       };
     });
+  }
+
+  validate() {
+    const list: Map<QuestionName, number[]> = new Map();
+    list.set('Q1', [1, 23, 4]);
+
+    console.log(list);
+    // return true;
   }
 
   vote() {
