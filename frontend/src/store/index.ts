@@ -8,6 +8,7 @@ Vue.use(Vuex);
 export const state: State = {
   balanceAnswersIdx: [],
   questions: sampleQuestion,
+  answerData: [],
 };
 
 export default new Vuex.Store({
@@ -15,15 +16,22 @@ export default new Vuex.Store({
   state,
   getters: {
     balanceAnswersIdx: (state) => state.balanceAnswersIdx,
+    answerData: (state) => state.answerData,
   },
   actions: {
     balanceVote({ commit }, questionIdx) {
-      commit('ba lanceAnswersIdx', questionIdx);
+      commit('balanceAnswersIdx', questionIdx);
+    },
+    setAnswerData({ commit }, answerData) {
+      commit('setAnswerData', answerData);
     },
   },
   mutations: {
     balanceVote(state, questionIdx) {
       state.balanceAnswersIdx.push(questionIdx);
+    },
+    setAnswerData(state, answerData) {
+      state.answerData = answerData;
     },
   },
   modules: {},
