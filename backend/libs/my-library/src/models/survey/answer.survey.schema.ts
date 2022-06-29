@@ -1,8 +1,8 @@
 import { CollectionInfo, createFeature } from '@app/my-library/common/db.config';
-import { Prop, Schema } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
 import { IpInfo } from '@app/my-library/interface/decorator/ip-info';
 import { Survey } from '@app/my-library/interface/survey/Survey';
+import { Prop, Schema } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
 
 @Schema({ collection: CollectionInfo.QUESTION_ANSWER })
 export class AnswerSurveySchema extends Document {
@@ -18,8 +18,8 @@ export class AnswerSurveySchema extends Document {
   @Prop({ required: true, type: IpInfo })
   accessInfo: IpInfo;
 
-  @Prop({ required: true, type: Survey.Answer })
-  data: Survey.Answer;
+  @Prop({ required: true, type: Array })
+  data: Survey.Answer[];
 
   @Prop({ required: true, type: String })
   lastQuestion: string;
