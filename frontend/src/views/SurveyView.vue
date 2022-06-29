@@ -32,13 +32,14 @@
                   <!-- 설문지 -->
 
                   {{ testObj }}
+
                   <!-- 컴플릿 type -->
                   <template v-if="item.type === 'COMPLETE'">
                     <v-radio-group v-model="testObj[item.name]" row>
                       <v-radio
-                        v-for="(labelInfo, labelIdx) in item.viewInfo"
+                        v-for="labelInfo in item.viewInfo"
                         :key="item.seq + '-' + labelInfo.value"
-                        :value="labelIdx"
+                        :value="labelInfo.value"
                         class="col-md-6 ma-0 pa-0 col-sm-12"
                       >
                         <template #label>
@@ -52,7 +53,7 @@
                   <!-- 컴플릿 type -->
 
                   <!-- 라디오 type -->
-                  <template v-if="item.type === 'RADIO' && item.name === 'Q1'">
+                  <template v-if="item.type === 'RADIO'">
                     {{ item }}
                     <v-radio-group v-model="testObj[item.name]">
                       <v-radio
@@ -86,7 +87,7 @@
                     <v-divider />
                   </v-col>
                   <v-col cols="6">
-                    <v-btn block color="indigo darker-3" dark large @click="validate">Next(다음)</v-btn>
+                    <v-btn block color="indigo darker-3" dark large @click="vote">Next(다음)</v-btn>
                   </v-col>
                 </v-row>
               </v-sheet>
@@ -101,7 +102,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { Survey } from '@/interface/survey-question';
-import { QuestionName, sampleQuestion, viewInfo } from '@/util/default-setting/sample/sample-question';
+import { sampleQuestion, viewInfo } from '@/util/default-setting/sample/sample-question';
 
 @Component({
   components: {},
@@ -109,10 +110,8 @@ import { QuestionName, sampleQuestion, viewInfo } from '@/util/default-setting/s
 export default class SurveyView extends Vue {
   private step: number = 1;
   private surveyQuestions: Survey.Question[] = sampleQuestion;
-  private answerData: Map<QuestionName, number[]> = new Map();
-  private testObj: any = {
-    Q1: 0,
-  };
+  // private testObj: { [key: Survey.QuestionName]: number[] };
+  private testObj: { [key: string]: number[] | number } = {};
 
   get stepQuestion(): Survey.Question[] {
     return this.surveyQuestions.filter((question) => question.step === this.step);
@@ -127,7 +126,7 @@ export default class SurveyView extends Vue {
   }
 
   testObjShow() {
-    console.log(this.testObj);
+    // console.log(this.testObj);
     return 'aaa';
   }
 
@@ -152,13 +151,7 @@ export default class SurveyView extends Vue {
     });
   }
 
-  validate() {
-    const list: Map<QuestionName, number[]> = new Map();
-    list.set('Q1', [1, 23, 4]);
-
-    console.log(list);
-    // return true;
-  }
+  validate() {}
 
   vote() {
     if (this.step >= 11) return;

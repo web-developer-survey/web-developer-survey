@@ -27,4 +27,10 @@ export namespace Survey {
     addText: boolean;
     isAllDisable: boolean;
   }
+
+  export type QuestionName = `${FirstString}${DigitTen1to4}${'' | '0' | Digit}`;
 }
+
+type FirstString = 'Q';
+type DigitTen1to4 = '1' | '2' | '3' | '4';
+type Digit = DigitTen1to4 | '5' | '6' | '7' | '8' | '9';
