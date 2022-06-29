@@ -1,5 +1,6 @@
 <template>
   <v-main class="grey lighten-3">
+    <!--#TODO 추후 컴포넌트 분리 예정-->
     <v-container>
       <v-sheet class="mx-auto" max-width="800px" min-height="80vh" rounded="lg">
         <v-row>
@@ -54,7 +55,6 @@
 
                   <!-- 라디오 type -->
                   <template v-if="item.type === 'RADIO'">
-                    {{ item }}
                     <v-radio-group v-model="testObj[item.name]">
                       <v-radio
                         v-for="labelInfo in item.viewInfo"
@@ -76,6 +76,23 @@
                     </v-radio-group>
                   </template>
                   <!-- 라디오 type -->
+
+                  <!-- 체크박스 type -->
+                  <!--                  <template v-if="item.type === 'CHECKBOX'">-->
+                  <!--                    <v-card-title>{{ test }}{{ item.name }}</v-card-title>-->
+                  <!--                    <v-card-title>{{ testObj['Q5'] }}</v-card-title>-->
+                  <!--                    <template v-for="labelInfo in item.viewInfo">-->
+                  <!--                      <v-checkbox-->
+                  <!--                        v-model="testObj[item.name]"-->
+                  <!--                        :key="item.seq + '-' + labelInfo.value"-->
+                  <!--                        :value="labelInfo.value"-->
+                  <!--                        :label="labelInfo.label"-->
+                  <!--                        @change="showValue(item.name, labelInfo.value)"-->
+                  <!--                      >-->
+                  <!--                      </v-checkbox>-->
+                  <!--                    </template>-->
+                  <!--                  </template>-->
+                  <!-- 체크박스 type -->
                 </v-card-text>
 
                 <v-divider />
@@ -111,18 +128,23 @@ export default class SurveyView extends Vue {
   private step: number = 1;
   private surveyQuestions: Survey.Question[] = sampleQuestion;
   // private testObj: { [key: Survey.QuestionName]: number[] };
-  private testObj: { [key: string]: number[] | number } = {};
+  private testObj: { [key: string]: any } = {};
+  private test = [];
+  // private testQ5Obj: { [key: string]: number[] } = {
+  //   Q5: [],
+  // };
+
+  created() {
+    const routerName = this.$route.name;
+  }
 
   get stepQuestion(): Survey.Question[] {
-    return this.surveyQuestions.filter((question) => question.step === this.step);
+    return this.surveyQuestions;
+    // return this.surveyQuestions.filter((question) => question.step === this.step);
   }
 
   get gage(): number {
     return (this.step - 1) * 10;
-  }
-
-  created() {
-    const routerName = this.$route.name;
   }
 
   testObjShow() {
@@ -149,11 +171,32 @@ export default class SurveyView extends Vue {
         viewInfo: custom,
       };
     });
+    console.log('---');
+    for (const item of this.surveyQuestions) {
+      const { name, type } = item;
+      if (type === 'CHECKBOX') {
+        this.testObj[name] = [];
+      }
+    }
   }
 
   validate() {}
 
+  showValue(name: string, value: number) {
+    // if (Array.isArray(this.testObj[name])) {
+    //   // if( this.testObj[name] )
+    //   //  하아ㅏ...............ddksㅇㅁㄴ ㅁㄴㅇ 아니 배열이 맞돠고 ㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠ
+    //   // if(typeof this.testObj[name])
+    //   (this.testObj[name] as number[]).push(value);
+    //   // console.dir();
+    //   // .push(value);
+    // }
+    // this.testObj[name] as number[];
+    console.log(this.testObj[name]);
+  }
+
   vote() {
+    //#todo: 특정 문항은 number-> number[]로 변경해줘야함. QuestionType example-> Radio
     if (this.step >= 11) return;
     this.$vuetify.goTo(0, { duration: 300 });
     this.step++;
