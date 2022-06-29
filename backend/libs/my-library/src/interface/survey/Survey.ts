@@ -4,7 +4,7 @@ export namespace Survey {
   export class Answer {
     questionName: string;
     type: questionType;
-    value: string;
+    value: number[];
     etc: string;
     answerDate: Date;
   }
