@@ -7,15 +7,18 @@ import { AnswerSurveySchema } from '@app/my-library/models/survey/answer.survey.
 
 @Injectable()
 export class SurveyAnswerRepository {
-  constructor(@InjectModel(AnswerSurveySchema.name) private answerSurveySchema: Model<AnswerSurveySchema>) {}
+  constructor(@InjectModel(AnswerSurveySchema.name) private answerSurveyModel: Model<AnswerSurveySchema>) {}
 
   async create(createSurveyAnswerDto: CreateSurveyAnswerDto) {
-    // console.log('---create');
-    new this.answerSurveySchema({
+    new this.answerSurveyModel({
       _id: 'test1',
       UID: 'TEST1',
       surveyId: 'test111',
       accessInfo: { userIp: 'test', userAgent: 'test' },
+      data: [],
+      lastQuestion: 'Q1',
+      isCompleteBonus: false,
+      isCompleteMain: false,
     }).save();
     return 'This action adds a new surveyAnswer';
   }
@@ -28,7 +31,20 @@ export class SurveyAnswerRepository {
     return `This action returns a #${id} surveyAnswer`;
   }
 
-  update(id: number, updateSurveyAnswerDto: UpdateSurveyAnswerDto) {
+  async update(id: number, updateSurveyAnswerDto: UpdateSurveyAnswerDto) {
+    //TODO: filter -> UID
+    const $filter = {
+      _id: 'test1',
+    };
+
+    //TODO: DATA PATCH
+    const $set = {
+      $set: {
+        UID: '1',
+      },
+    };
+    await this.answerSurveyModel.updateOne($filter, $set);
+
     return `This action updates a #${id} surveyAnswer`;
   }
 
