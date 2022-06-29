@@ -1,9 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { SurveyAnswerService } from './survey-answer.service';
 import { CreateSurveyAnswerDto } from './dto/create-survey-answer.dto';
 import { UpdateSurveyAnswerDto } from './dto/update-survey-answer.dto';
 
-@Controller('survey-answer')
+//#TODO 통합 모듈 생성할 것
+@Controller('survey/answer')
 export class SurveyAnswerController {
   constructor(private readonly surveyAnswerService: SurveyAnswerService) {}
 
