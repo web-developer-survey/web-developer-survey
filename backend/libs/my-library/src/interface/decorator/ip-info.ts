@@ -1,4 +1,4 @@
-export interface IpInfo {
+export class IpInfo {
   userIp: string;
   userAgent: string;
 }
