@@ -1,4 +1,4 @@
 import { PartialType } from '@nestjs/swagger';
-import { CreateSurveyAnswerDto } from './create-survey-answer.dto';
+import { CreateSurveyAnswerDto } from '@app/api/survey/survey-answer/dto/create-survey-answer.dto';
 
 export class UpdateSurveyAnswerDto extends PartialType(CreateSurveyAnswerDto) {}
