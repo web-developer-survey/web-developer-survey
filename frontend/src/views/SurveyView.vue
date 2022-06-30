@@ -78,20 +78,20 @@
                   <!-- 라디오 type -->
 
                   <!-- 체크박스 type -->
-                  <!--                  <template v-if="item.type === 'CHECKBOX'">-->
-                  <!--                    <v-card-title>{{ test }}{{ item.name }}</v-card-title>-->
-                  <!--                    <v-card-title>{{ testObj['Q5'] }}</v-card-title>-->
-                  <!--                    <template v-for="labelInfo in item.viewInfo">-->
-                  <!--                      <v-checkbox-->
-                  <!--                        v-model="testObj[item.name]"-->
-                  <!--                        :key="item.seq + '-' + labelInfo.value"-->
-                  <!--                        :value="labelInfo.value"-->
-                  <!--                        :label="labelInfo.label"-->
-                  <!--                        @change="showValue(item.name, labelInfo.value)"-->
-                  <!--                      >-->
-                  <!--                      </v-checkbox>-->
-                  <!--                    </template>-->
-                  <!--                  </template>-->
+<!--                  <template v-if="item.type === 'CHECKBOX'">-->
+<!--                    <v-card-title>{{ test }}{{ item.name }}</v-card-title>-->
+<!--                    <v-card-title>{{ testObj['Q5'] }}</v-card-title>-->
+<!--                    <template v-for="labelInfo in item.viewInfo">-->
+<!--                      <v-checkbox-->
+<!--                        v-model="testObj.Q5"-->
+<!--                        :key="item.seq + '-' + labelInfo.value"-->
+<!--                        :value="labelInfo.value"-->
+<!--                        :label="labelInfo.label"-->
+<!--                        @change="showValue(item.name, labelInfo.value)"-->
+<!--                      />-->
+<!--                      &lt;!&ndash;                      </v-checkbox>&ndash;&gt;-->
+<!--                    </template>-->
+<!--                  </template>-->
                   <!-- 체크박스 type -->
                 </v-card-text>
 
@@ -139,7 +139,8 @@ export default class SurveyView extends Vue {
   }
 
   get stepQuestion(): Survey.Question[] {
-    return this.surveyQuestions;
+    // return this.surveyQuestions;
+    return this.surveyQuestions.filter((question) => question.name === 'Q5');
     // return this.surveyQuestions.filter((question) => question.step === this.step);
   }
 
