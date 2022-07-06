@@ -8,7 +8,7 @@ import { GlobalFilter } from '@app/my-library/global-filter';
 import { modules } from '@app/my-library/common/app.modules';
 
 @Module({
-  imports: [ErrorFeature, MyLibraryModule, ...modules],
+  imports: [MyLibraryModule, ErrorFeature, ...modules],
   controllers: [AppController],
   providers: [
     AppService,

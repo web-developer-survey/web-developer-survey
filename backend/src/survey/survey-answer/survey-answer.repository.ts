@@ -20,6 +20,10 @@ export class SurveyAnswerRepository {
       isCompleteBonus: false,
       isCompleteMain: false,
     }).save();
+
+    const isUser = false;
+    if (isUser) throw new Error('User is not exist');
+
     return 'This action adds a new surveyAnswer';
   }
 
