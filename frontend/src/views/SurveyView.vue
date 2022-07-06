@@ -78,20 +78,20 @@
                   <!-- 라디오 type -->
 
                   <!-- 체크박스 type -->
-<!--                  <template v-if="item.type === 'CHECKBOX'">-->
-<!--                    <v-card-title>{{ test }}{{ item.name }}</v-card-title>-->
-<!--                    <v-card-title>{{ testObj['Q5'] }}</v-card-title>-->
-<!--                    <template v-for="labelInfo in item.viewInfo">-->
-<!--                      <v-checkbox-->
-<!--                        v-model="testObj.Q5"-->
-<!--                        :key="item.seq + '-' + labelInfo.value"-->
-<!--                        :value="labelInfo.value"-->
-<!--                        :label="labelInfo.label"-->
-<!--                        @change="showValue(item.name, labelInfo.value)"-->
-<!--                      />-->
-<!--                      &lt;!&ndash;                      </v-checkbox>&ndash;&gt;-->
-<!--                    </template>-->
-<!--                  </template>-->
+                  <template v-if="item.type === 'CHECKBOX' && Array.isArray(testObj[item.name])">
+                    <v-card-title>{{ testObj['Q5'] }}</v-card-title>
+                    <v-card-title>{{ test }}</v-card-title>
+                    <template v-for="labelInfo in item.viewInfo">
+                      <v-checkbox
+                        :key="item.seq + '-' + labelInfo.value"
+                        :class="item.name"
+                        :label="labelInfo.label"
+                        :value="labelInfo.value"
+                        @change="showValue(item.name, labelInfo.value, $event)"
+                      />
+                      <!--                      </v-checkbox>-->
+                    </template>
+                  </template>
                   <!-- 체크박스 type -->
                 </v-card-text>
 
@@ -128,15 +128,11 @@ export default class SurveyView extends Vue {
   private step: number = 1;
   private surveyQuestions: Survey.Question[] = sampleQuestion;
   // private testObj: { [key: Survey.QuestionName]: number[] };
-  private testObj: { [key: string]: any } = {};
-  private test = [];
+  private testObj: { [key: string]: number | number[] } = {};
+  private test: number[] = [];
   // private testQ5Obj: { [key: string]: number[] } = {
   //   Q5: [],
   // };
-
-  created() {
-    const routerName = this.$route.name;
-  }
 
   get stepQuestion(): Survey.Question[] {
     // return this.surveyQuestions;
@@ -146,6 +142,10 @@ export default class SurveyView extends Vue {
 
   get gage(): number {
     return (this.step - 1) * 10;
+  }
+
+  created() {
+    const routerName = this.$route.name;
   }
 
   testObjShow() {
@@ -183,15 +183,19 @@ export default class SurveyView extends Vue {
 
   validate() {}
 
-  showValue(name: string, value: number) {
-    // if (Array.isArray(this.testObj[name])) {
-    //   // if( this.testObj[name] )
-    //   //  하아ㅏ...............ddksㅇㅁㄴ ㅁㄴㅇ 아니 배열이 맞돠고 ㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠ
-    //   // if(typeof this.testObj[name])
-    //   (this.testObj[name] as number[]).push(value);
-    //   // console.dir();
-    //   // .push(value);
-    // }
+  showValue(name: string, value: number, $event: any) {
+    const isAdd = !!$event;
+
+    if (isAdd) {
+    } else {
+    }
+
+    if (name === 'Q5') {
+      if (Array.isArray(this.testObj[name])) {
+        (this.testObj[name] as number[]).push(value);
+      }
+    }
+
     // this.testObj[name] as number[];
     console.log(this.testObj[name]);
   }

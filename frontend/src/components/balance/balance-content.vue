@@ -1,6 +1,6 @@
 <template>
   <v-sheet>
-    <v-card v-if="sync_id" :max-height="cardHeight" tile color="grey">
+    <v-card v-if="sync_id" :max-height="cardHeight" color="grey" tile>
       <v-row class="fill-height ma-0">
         <!-- CONTENT LEFT -->
         <v-col :class="`overflow-hidden ${noneEventCss}`" cols="12" md="6">
@@ -64,7 +64,7 @@
       </v-row>
 
       <!-- OVERLAY -->
-      <v-overlay absolute :value="overlay" @click="nextQuestion" class="pointer">
+      <v-overlay :value="overlay" absolute class="pointer" @click="nextQuestion">
         <v-card-title>
           <small>{{ nextCnt }}초후</small>&nbsp;자동으로 다음질문 넘어갑니다!
           <v-icon>mdi-cat</v-icon>
@@ -78,10 +78,11 @@
       </v-overlay>
       <!-- OVERLAY -->
     </v-card>
-    <v-card  v-else :height="cardHeight" tile >
+    <v-card v-else :height="cardHeight" tile>
       <v-card-title>
         <v-icon>mdi-dog</v-icon>
-        질문을 받아오는 중입니다.</v-card-title>
+        질문을 받아오는 중입니다.
+      </v-card-title>
     </v-card>
   </v-sheet>
 </template>
@@ -100,28 +101,47 @@ export default class BalanceContent extends Vue {
   @PropSync('labelB') syncLabelB: string;
   @PropSync('height') syncHeight: number;
   @PropSync('_id') sync_id: number;
-  private nextTimer: ReturnType<typeof setTimeout> = setTimeout(() => {});
-  private cntTimer: ReturnType<typeof setTimeout> = setTimeout(() => {});
-  private nextCnt: number = 4;
-  private overlay: boolean = false;
-  private isAllClick: boolean = false;
-
-  private resultA: number = 0;
-  private resultB: number = 0;
-  private completeA: boolean = false;
-  private completeB: boolean = false;
-
   select: balanceType;
   clickInfo: Balance.Setting = {
     typeA: 'A',
     typeB: 'B',
   };
-
+  private nextTimer: ReturnType<typeof setTimeout> = setTimeout(() => {});
+  private cntTimer: ReturnType<typeof setTimeout> = setTimeout(() => {});
+  private nextCnt: number = 4;
+  private overlay: boolean = false;
+  private isAllClick: boolean = false;
+  private resultA: number = 0;
+  private resultB: number = 0;
+  private completeA: boolean = false;
+  private completeB: boolean = false;
   private timerOption = {
     nextQuestion: 4000,
     showOverlay: 1000,
     timeCnt: 1000,
   };
+
+  get selectA(): boolean {
+    if (!this.isAllClick) return false;
+    return this.select === 'A';
+  }
+
+  get selectB(): boolean {
+    if (!this.isAllClick) return false;
+    return this.select === 'B';
+  }
+
+  get parentHeight(): number {
+    return this.syncHeight + 30;
+  }
+
+  get cardHeight(): number {
+    return this.syncHeight * 2 + 120;
+  }
+
+  get noneEventCss(): string {
+    return this.isAllClick ? 'none-click' : '';
+  }
 
   reset() {
     this.nextCnt = 4;
@@ -196,28 +216,6 @@ export default class BalanceContent extends Vue {
   setSelect(type: balanceType) {
     this.select = type;
     console.log(this.select, '클릭함');
-  }
-
-  get selectA(): boolean {
-    if (!this.isAllClick) return false;
-    return this.select === 'A';
-  }
-
-  get selectB(): boolean {
-    if (!this.isAllClick) return false;
-    return this.select === 'B';
-  }
-
-  get parentHeight(): number {
-    return this.syncHeight + 30;
-  }
-
-  get cardHeight(): number {
-    return this.syncHeight * 2 + 120;
-  }
-
-  get noneEventCss(): string {
-    return this.isAllClick ? 'none-click' : '';
   }
 }
 </script>
