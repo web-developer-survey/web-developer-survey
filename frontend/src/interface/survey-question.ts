@@ -2,7 +2,7 @@ export namespace Survey {
   export interface Question {
     surveyId: number;
     step: number;
-    maxStep: number;
+    maxStep?: number;
     seq: number;
     title: string;
     type: string;

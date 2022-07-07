@@ -4,6 +4,7 @@ import SurveyView from '../views/SurveyView.vue';
 import Home from '@/views/Home.vue';
 import ResultView from '@/views/ResultView.vue';
 import BalanceView from '@/views/BalanceView.vue';
+import QuestionManageView from "@/views/QuestionManageView.vue";
 
 Vue.use(VueRouter);
 
@@ -28,6 +29,11 @@ const routes: Array<RouteConfig> = [
     name: 'Balance',
     component: BalanceView,
   },
+  {
+    path: '/manage',
+    name: 'Manage',
+    component: QuestionManageView,
+  }
 ];
 
 const router = new VueRouter({
