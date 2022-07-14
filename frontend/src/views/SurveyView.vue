@@ -87,23 +87,22 @@
                         ripple
                         hide-details
                         @change="setCheckbox(item.name, labelInfo.value, $event)"
-                      >
-                        <template #label>
-                          <v-row>
-                            <v-col v-if="labelInfo.addText" cols="6">
-                              <v-text-field
-                                class="ma-0 pa-0"
-                                hide-details
-                                v-model="answerList[item.name + '_ETC']"
-                                label="기타"
-                              ></v-text-field>
-                            </v-col>
-                            <v-col v-else cols="12">
-                              <label class="text-body-2 text-sm-body-1">{{ labelInfo.label }}</label>
-                            </v-col>
-                          </v-row>
-                        </template>
-                      </v-checkbox>
+                        :label="labelInfo.label"
+                      />
+                      {{ answerList[item.name] }}
+                      {{ labelInfo.addText }}
+                      {{ answerList[item.name].includes(98) }}
+
+                      <v-row v-if="labelInfo.addText && answerList[item.name].includes(98)">
+                        <v-col cols="5">
+                          <v-text-field
+                            class="ml-5 ma-0 pa-0"
+                            hide-details
+                            v-model="answerList[item.name + '_ETC']"
+                            label=""
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
                     </template>
                   </template>
                   <!-- 체크박스 type -->
@@ -155,6 +154,11 @@ export default class SurveyView extends Vue {
     // return this.surveyQuestions;
   }
 
+  test() {
+    const a = (this.answerList['Q5'] as number[]).includes(98);
+    console.log(a);
+  }
+
   get gage(): number {
     return (this.step - 1) * 10;
   }
@@ -198,6 +202,12 @@ export default class SurveyView extends Vue {
     } else {
       (this.answerList[name] as number[]) = (this.answerList[name] as number[]).filter((item) => item !== value);
     }
+
+    // #TODO: 오브젝트 감지
+    this.$set(this.answerList, name, this.answerList[name]);
+
+    (this.answerList[name] as number[]).sort();
+    console.log(this.answerList[name]);
   }
 
   validate(): boolean {
