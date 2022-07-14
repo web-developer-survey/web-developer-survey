@@ -1,5 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { Vue } from 'vue-property-decorator';
+import EventBus from "@/util/EventBus";
 
 const baseURL = '/api';
 
@@ -26,12 +27,12 @@ instance.interceptors.response.use(
   (error) => {
     const { response } = error;
     const { status, data } = response;
-
-    Vue.$toast.open({
-      message: data.message,
-      type: 'error',
-      duration: 5000,
-    });
+    EventBus.$emit('Error',data.message);
+    // Vue.$toast.open({
+    //   message: data.message,
+    //   type: 'error',
+    //   duration: 5000,
+    // });
     return response;
   },
 );
