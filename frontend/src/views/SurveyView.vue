@@ -32,30 +32,27 @@
                 <v-card-text>
                   <!-- 설문지 -->
 
-                  {{ testObj }}
-
                   <!-- 컴플릿 type -->
                   <template v-if="item.type === 'COMPLETE'">
-                    <v-radio-group v-model="testObj[item.name]" row>
+                    <v-radio-group v-model="answerList[item.name]" row>
                       <v-radio
                         v-for="labelInfo in item.viewInfo"
                         :key="item.seq + '-' + labelInfo.value"
                         :value="labelInfo.value"
                         class="col-md-6 ma-0 pa-0 col-sm-12"
+                        ripple
                       >
                         <template #label>
                           {{ labelInfo.label }}
                         </template>
                       </v-radio>
                     </v-radio-group>
-                    <!-- #TODO: 추후 에러메시지 컴포넌트화 -->
-                    <p v-if="false" class="error">에러메세지 입니다.</p>
                   </template>
                   <!-- 컴플릿 type -->
 
                   <!-- 라디오 type -->
                   <template v-if="item.type === 'RADIO'">
-                    <v-radio-group v-model="testObj[item.name]">
+                    <v-radio-group v-model="answerList[item.name]">
                       <v-radio
                         v-for="labelInfo in item.viewInfo"
                         :key="item.seq + '-' + labelInfo.value"
@@ -65,7 +62,11 @@
                         <template #label>
                           <v-row>
                             <v-col v-if="labelInfo.addText" cols="6">
-                              <v-text-field class="ma-0" label="기타"></v-text-field>
+                              <v-text-field
+                                class="ma-0 pa-0"
+                                hide-details
+                                v-model="answerList[item.name + '_ETC']"
+                              ></v-text-field>
                             </v-col>
                             <v-col v-else cols="12">
                               <label class="text-body-2 text-sm-body-1">{{ labelInfo.label }}</label>
@@ -78,18 +79,31 @@
                   <!-- 라디오 type -->
 
                   <!-- 체크박스 type -->
-                  <template v-if="item.type === 'CHECKBOX' && Array.isArray(testObj[item.name])">
-                    <v-card-title>{{ testObj['Q5'] }}</v-card-title>
-                    <v-card-title>{{ test }}</v-card-title>
+                  <template v-if="item.type === 'CHECKBOX' && Array.isArray(answerList[item.name])">
                     <template v-for="labelInfo in item.viewInfo">
                       <v-checkbox
                         :key="item.seq + '-' + labelInfo.value"
                         :class="item.name"
-                        :label="labelInfo.label"
-                        :value="labelInfo.value"
-                        @change="showValue(item.name, labelInfo.value, $event)"
-                      />
-                      <!--                      </v-checkbox>-->
+                        ripple
+                        hide-details
+                        @change="setCheckbox(item.name, labelInfo.value, $event)"
+                      >
+                        <template #label>
+                          <v-row>
+                            <v-col v-if="labelInfo.addText" cols="6">
+                              <v-text-field
+                                class="ma-0 pa-0"
+                                hide-details
+                                v-model="answerList[item.name + '_ETC']"
+                                label="기타"
+                              ></v-text-field>
+                            </v-col>
+                            <v-col v-else cols="12">
+                              <label class="text-body-2 text-sm-body-1">{{ labelInfo.label }}</label>
+                            </v-col>
+                          </v-row>
+                        </template>
+                      </v-checkbox>
                     </template>
                   </template>
                   <!-- 체크박스 type -->
@@ -105,6 +119,7 @@
                   </v-col>
                   <v-col cols="6">
                     <v-btn block color="indigo darker-3" dark large @click="vote">Next(다음)</v-btn>
+                    <v-btn block color="indigo darker-3" dark large @click="showValue">값 확인</v-btn>
                   </v-col>
                 </v-row>
               </v-sheet>
@@ -125,19 +140,19 @@ import { sampleQuestion, viewInfo } from '@/util/default-setting/sample/sample-q
   components: {},
 })
 export default class SurveyView extends Vue {
-  private step: number = 1;
   private surveyQuestions: Survey.Question[] = sampleQuestion;
-  // private testObj: { [key: Survey.QuestionName]: number[] };
-  private testObj: { [key: string]: number | number[] } = {};
-  private test: number[] = [];
-  // private testQ5Obj: { [key: string]: number[] } = {
-  //   Q5: [],
-  // };
+  private answerList: { [key: string]: number | number[] | string } = {};
+  private step: number = 1;
+  checkQuestionList: string[] = [];
+  private errorInfo: {
+    id: string;
+    message: string;
+  } = { id: '', message: '' };
 
   get stepQuestion(): Survey.Question[] {
-    // return this.surveyQuestions;
     return this.surveyQuestions.filter((question) => question.name === 'Q5');
     // return this.surveyQuestions.filter((question) => question.step === this.step);
+    // return this.surveyQuestions;
   }
 
   get gage(): number {
@@ -148,17 +163,11 @@ export default class SurveyView extends Vue {
     const routerName = this.$route.name;
   }
 
-  testObjShow() {
-    // console.log(this.testObj);
-    return 'aaa';
-  }
-
   async mounted() {
     this.surveyQuestions = this.surveyQuestions.map((item1, idx) => {
       const findViewInfo = viewInfo.filter((v) => v.questionSEQ === item1.seq);
       const custom = findViewInfo.map((item) => {
         const { questionSEQ, isAllDisable, value, label, addText } = item;
-
         return {
           value,
           label,
@@ -172,36 +181,73 @@ export default class SurveyView extends Vue {
         viewInfo: custom,
       };
     });
-    console.log('---');
+
     for (const item of this.surveyQuestions) {
       const { name, type } = item;
       if (type === 'CHECKBOX') {
-        this.testObj[name] = [];
+        this.checkQuestionList.push(name);
+        this.answerList[name] = [];
       }
     }
   }
 
-  validate() {}
-
-  showValue(name: string, value: number, $event: any) {
+  setCheckbox(name: string, value: number, $event: any) {
     const isAdd = !!$event;
-
     if (isAdd) {
+      (this.answerList[name] as number[]).push(value);
     } else {
+      (this.answerList[name] as number[]) = (this.answerList[name] as number[]).filter((item) => item !== value);
     }
+  }
 
-    if (name === 'Q5') {
-      if (Array.isArray(this.testObj[name])) {
-        (this.testObj[name] as number[]).push(value);
+  validate(): boolean {
+    const questionNames = this.stepQuestion.map((value) => value.name);
+    for (let questionName of questionNames) {
+      if (this.checkQuestionList.includes(questionName)) {
+        // #TODO: 체크박스 기타값 검증 함수 분리
+        if ((this.answerList[questionName] as number[]).includes(98)) {
+          if (!this.answerList[questionName + '_ETC']) {
+            //#TODO: 메세지 관련 함수 만들기
+            this.errorInfo.id = questionName;
+            this.errorInfo.message = `${questionName} 기타 값을 입력해주세요.`;
+            return false;
+          }
+        }
+
+        // #TODO: 체크박스 검증 함수 분리
+        if (!(this.answerList[questionName] as number[]).length) {
+          this.errorInfo.id = questionName;
+          this.errorInfo.message = `${questionName} 값을 입력해주세요.`;
+          return false;
+        }
+      } else {
+        // #TODO: 일반 값 검증 함수 분리
+        if (!this.answerList[questionName]) {
+          this.errorInfo.id = questionName;
+          this.errorInfo.message = `${questionName} 값을 입력해주세요.`;
+          return false;
+        }
       }
     }
+    return true;
+  }
 
-    // this.testObj[name] as number[];
-    console.log(this.testObj[name]);
+  showValue() {
+    console.log(this.answerList);
   }
 
   vote() {
     //#todo: 특정 문항은 number-> number[]로 변경해줘야함. QuestionType example-> Radio
+    if (!this.validate()) {
+      this.$toast.open({
+        message: this.errorInfo.message,
+        type: 'error',
+        position: 'top',
+      });
+
+      return;
+    }
+
     if (this.step >= 11) return;
     this.$vuetify.goTo(0, { duration: 300 });
     this.step++;
