@@ -89,10 +89,6 @@
                         @change="setCheckbox(item.name, labelInfo.value, $event)"
                         :label="labelInfo.label"
                       />
-                      {{ answerList[item.name] }}
-                      {{ labelInfo.addText }}
-                      {{ answerList[item.name].includes(98) }}
-
                       <v-row v-if="labelInfo.addText && answerList[item.name].includes(98)">
                         <v-col cols="5">
                           <v-text-field
