@@ -63,9 +63,9 @@
                           <v-row>
                             <v-col v-if="labelInfo.addText" cols="6">
                               <v-text-field
+                                v-model="answerList[item.name + '_ETC']"
                                 class="ma-0 pa-0"
                                 hide-details
-                                v-model="answerList[item.name + '_ETC']"
                               ></v-text-field>
                             </v-col>
                             <v-col v-else cols="12">
@@ -84,21 +84,23 @@
                       <v-checkbox
                         :key="item.seq + '-' + labelInfo.value"
                         :class="item.name"
-                        ripple
-                        hide-details
-                        @change="setCheckbox(item.name, labelInfo.value, $event)"
                         :label="labelInfo.label"
+                        hide-details
+                        ripple
+                        @change="setCheckbox(item.name, labelInfo.value, $event)"
                       />
                       {{ answerList[item.name] }}
                       {{ labelInfo.addText }}
                       {{ answerList[item.name].includes(98) }}
 
-                      <v-row v-if="labelInfo.addText && answerList[item.name].includes(98)">
+                      <!-- #todo: event 로 처리 -->
+                      <v-row v-if="labelInfo.addText" :id="item.name + '_check_etc'" class="d-none">
                         <v-col cols="5">
                           <v-text-field
+                            :id="item.name + '_check_etc_value'"
+                            v-model="answerList[item.name + '_ETC']"
                             class="ml-5 ma-0 pa-0"
                             hide-details
-                            v-model="answerList[item.name + '_ETC']"
                             label=""
                           ></v-text-field>
                         </v-col>
@@ -139,10 +141,10 @@ import { sampleQuestion, viewInfo } from '@/util/default-setting/sample/sample-q
   components: {},
 })
 export default class SurveyView extends Vue {
+  checkQuestionList: string[] = [];
   private surveyQuestions: Survey.Question[] = sampleQuestion;
   private answerList: { [key: string]: number | number[] | string } = {};
   private step: number = 1;
-  checkQuestionList: string[] = [];
   private errorInfo: {
     id: string;
     message: string;
@@ -154,13 +156,13 @@ export default class SurveyView extends Vue {
     // return this.surveyQuestions;
   }
 
+  get gage(): number {
+    return (this.step - 1) * 10;
+  }
+
   test() {
     const a = (this.answerList['Q5'] as number[]).includes(98);
     console.log(a);
-  }
-
-  get gage(): number {
-    return (this.step - 1) * 10;
   }
 
   created() {
@@ -199,8 +201,22 @@ export default class SurveyView extends Vue {
     const isAdd = !!$event;
     if (isAdd) {
       (this.answerList[name] as number[]).push(value);
+      if (value === 98) {
+        const etcEle = document.getElementById(name + '_check_etc');
+        if (etcEle) {
+          etcEle.className = '';
+        }
+      }
     } else {
       (this.answerList[name] as number[]) = (this.answerList[name] as number[]).filter((item) => item !== value);
+      if (value === 98) {
+        const etcEle = document.getElementById(name + '_check_etc');
+        const etcInput = document.getElementById(name + '_check_etc_value') as HTMLInputElement;
+        if (etcEle && etcInput) {
+          etcEle.className = 'd-none';
+          etcInput.value = '';
+        }
+      }
     }
 
     // #TODO: 오브젝트 감지
