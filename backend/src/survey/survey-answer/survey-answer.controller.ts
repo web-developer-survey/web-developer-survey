@@ -1,14 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { CreateSurveyAnswerDto, UpdateSurveyAnswerDto } from '@app/api/survey/survey-answer/dto';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { SurveyAnswerService } from './survey-answer.service';
-import { CreateSurveyAnswerDto } from './dto/create-survey-answer.dto';
-import { UpdateSurveyAnswerDto } from './dto/update-survey-answer.dto';
 
-@Controller('survey-answer')
+//#TODO 통합 모듈 생성할 것
+@Controller('survey/answer')
 export class SurveyAnswerController {
   constructor(private readonly surveyAnswerService: SurveyAnswerService) {}
 
   @Post()
-  create(@Body() createSurveyAnswerDto: CreateSurveyAnswerDto) {
+  async create(@Body() createSurveyAnswerDto: CreateSurveyAnswerDto) {
     return this.surveyAnswerService.create(createSurveyAnswerDto);
   }
 
@@ -23,7 +23,7 @@ export class SurveyAnswerController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSurveyAnswerDto: UpdateSurveyAnswerDto) {
+  async update(@Param('id') id: string, @Body() updateSurveyAnswerDto: UpdateSurveyAnswerDto) {
     return this.surveyAnswerService.update(+id, updateSurveyAnswerDto);
   }
 

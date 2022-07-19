@@ -23,4 +23,4 @@ export class QuestionBalanceSchema extends Document {
   isUse: boolean;
 }
 
-export const QuestionBalanceFactory = createFeature(QuestionBalanceSchema);
+export const QuestionBalanceFeature = createFeature(QuestionBalanceSchema);

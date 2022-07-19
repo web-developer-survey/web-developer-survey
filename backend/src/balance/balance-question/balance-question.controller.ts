@@ -1,15 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { BalanceQuestionService } from './balance-question.service';
-import { CreateBalanceQuestionDto } from './dto/create-balance-question.dto';
 import { UpdateBalanceQuestionDto } from './dto/update-balance-question.dto';
+import { FindBalanceQuestionDto } from '@app/api/balance/balance-question/dto/find-balance-question.dto';
 
 @Controller('/balance/question')
 export class BalanceQuestionController {
   constructor(private readonly balanceQuestionService: BalanceQuestionService) {}
 
   @Post()
-  create(@Body() createBalanceQuestionDto: CreateBalanceQuestionDto) {
-    return this.balanceQuestionService.create(createBalanceQuestionDto);
+  findQuestion(@Body() { balanceAnswers }: FindBalanceQuestionDto) {
+    return this.balanceQuestionService.findQuestion(balanceAnswers);
   }
 
   @Get()

@@ -1,11 +1,24 @@
+import { CreateSurveyAnswerDto, UpdateSurveyAnswerDto } from '@app/api/survey/survey-answer/dto';
+import { SurveyAnswerRepository } from '@app/api/survey/survey-answer/survey-answer.repository';
+import { ErrorService } from '@app/my-library/error/error.service';
+import { ErrorMessage } from '@app/my-library/error/message-enum';
 import { Injectable } from '@nestjs/common';
-import { CreateSurveyAnswerDto } from './dto/create-survey-answer.dto';
-import { UpdateSurveyAnswerDto } from './dto/update-survey-answer.dto';
 
 @Injectable()
 export class SurveyAnswerService {
-  create(createSurveyAnswerDto: CreateSurveyAnswerDto) {
-    return 'This action adds a new surveyAnswer';
+  constructor(private surveyAnswerRepo: SurveyAnswerRepository, private errorService: ErrorService) {}
+
+  async create(createSurveyAnswerDto: CreateSurveyAnswerDto) {
+    try {
+      await this.surveyAnswerRepo.create(createSurveyAnswerDto);
+    } catch (e) {
+      this.errorService.setCustomMessage(e, ErrorMessage.Survey.CREATE);
+    }
+
+    return {
+      result: true,
+      message: 'Success',
+    };
   }
 
   findAll() {
@@ -16,8 +29,17 @@ export class SurveyAnswerService {
     return `This action returns a #${id} surveyAnswer`;
   }
 
-  update(id: number, updateSurveyAnswerDto: UpdateSurveyAnswerDto) {
-    return `This action updates a #${id} surveyAnswer`;
+  async update(id: number, updateSurveyAnswerDto: UpdateSurveyAnswerDto) {
+    try {
+      await this.surveyAnswerRepo.update(1, updateSurveyAnswerDto);
+    } catch (e) {
+      this.errorService.setCustomMessage(e, ErrorMessage.Survey.CREATE);
+    }
+
+    return {
+      result: true,
+      message: 'Success',
+    };
   }
 
   remove(id: number) {

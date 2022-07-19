@@ -19,6 +19,8 @@ export const enum CollectionInfo {
 
   QUESTION_ANSWER = 'SurveyAnswer',
   BALANCE_ANSWER = 'BalanceAnswer',
+
+  ERROR = 'Error',
 }
 
 export const enum WebBalanceCollectionInfo {
@@ -36,7 +38,7 @@ export const dbSurveyOption = {
   inject: [ConfigService],
 };
 
-export function createFeature<TClass extends any>(target: Type<TClass>): DynamicModule {
+export function createFeature<TClass>(target: Type<TClass>): DynamicModule {
   const targetSchema = SchemaFactory.createForClass(target);
   const targetFactory: AsyncModelFactory = {
     name: target.name,

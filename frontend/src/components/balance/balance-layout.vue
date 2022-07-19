@@ -1,20 +1,18 @@
 <template>
   <v-app id="inspire" class="indigo lighten-5">
     <v-container>
+      <!--top bar -->
       <v-app-bar app color="white" dense>
         <v-toolbar-title>Balance Game for Dev</v-toolbar-title>
       </v-app-bar>
+      <!--top bar -->
 
-      <v-sheet
-        max-width="800"
-        style="padding: 48px 0 0"
-        class="ma-auto"
-        elevation="3"
-        color="grey"
-      >
+      <!-- content -->
+      <v-sheet max-width="800" style="padding: 48px 0 0" class="ma-auto" elevation="3" color="grey">
         <v-row justify="center">
           <v-col cols="12">
             <v-sheet max-height="750" class="left v-alert__border--right">
+              <!-- content header -->
               <v-card max-height="200" class="pa-3" color="#0F0F0F" tile>
                 <v-card-text text>
                   <h3 class="text-h5 font-top-title">
@@ -27,16 +25,24 @@
                   </div>
                 </v-card-text>
               </v-card>
+              <!-- content header -->
+
+              <!-- content -->
               <v-sheet max-height="420">
                 <slot name="content" />
               </v-sheet>
+              <!-- content -->
+
+              <!-- banner -->
               <v-sheet height="150" v-if="true" color="grey" class="pa-1">
                 <slot name="banner" />
               </v-sheet>
+              <!-- banner -->
             </v-sheet>
           </v-col>
         </v-row>
       </v-sheet>
+      <!-- content -->
     </v-container>
   </v-app>
 </template>
@@ -53,15 +59,6 @@ export default class BalanceLayout extends Vue {}
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
-/*
-.font-title {
-  background: #0f140f;
-  color: rgba(125, 225, 125, 0.75);
-  font-family: 'VT323', monospace;
-  font-size: 18px;
-  text-shadow: 0 0 5px rgba(125, 225, 125, 0.5), 0 0 15px rgba(125, 250, 125, 1);
-}
-*/
 
 .font-top-title {
   background: #0f140f;
@@ -69,6 +66,10 @@ export default class BalanceLayout extends Vue {}
   font-family: 'VT323', monospace;
   font-size: 18px;
   text-shadow: 0 0 5px rgba(255, 240, 255, 0.5), 0 0 15px rgba(240, 230, 250, 1);
+}
+
+.Pulse {
+  animation: Pulse 1.5s ease infinite;
 }
 
 @keyframes ScreenEffect {
@@ -93,10 +94,6 @@ export default class BalanceLayout extends Vue {}
   100% {
     background-position: 0 50%;
   }
-}
-
-.Pulse {
-  animation: Pulse 1.5s ease infinite;
 }
 
 @keyframes Pulse {

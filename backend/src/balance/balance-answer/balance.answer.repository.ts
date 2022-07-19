@@ -3,17 +3,17 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { AnswerBalanceSchema } from '@app/my-library/models/balance/answer.balance.schema';
 import { CreateBalanceAnswerDto } from '@app/api/balance/balance-answer/dto/create-balance-answer.dto';
+import { IpInfo } from '@app/my-library/interface/decorator/ip-info';
 
 @Injectable()
 export class BalanceAnswerRepository {
-  constructor(
-    @InjectModel(AnswerBalanceSchema.name) private balanceAnswerModel: Model<AnswerBalanceSchema>,
-  ) {}
+  constructor(@InjectModel(AnswerBalanceSchema.name) private balanceAnswerModel: Model<AnswerBalanceSchema>) {}
 
-  async create(createBalanceAnswerDto: CreateBalanceAnswerDto) {
+  async create(createBalanceAnswerDto: CreateBalanceAnswerDto, ipInfo: IpInfo) {
     await new this.balanceAnswerModel({
       _id: new Types.ObjectId(),
       ...createBalanceAnswerDto,
+      ...ipInfo,
     }).save();
   }
 
@@ -39,12 +39,8 @@ export class BalanceAnswerRepository {
       },
     };
 
-    const [data] = await this.balanceAnswerModel.aggregate([
-      $match,
-      $project_match,
-      $group,
-      $project_result,
-    ]);
+    const [data] = await this.balanceAnswerModel.aggregate([$match, $project_match, $group, $project_result]);
+
     return data;
   }
 }

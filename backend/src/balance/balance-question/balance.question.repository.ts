@@ -7,21 +7,17 @@ import { CreateBalanceQuestionDto } from '@app/api/balance/balance-question/dto/
 
 @Injectable()
 export class BalanceQuestionRepository {
-  constructor(
-    @InjectModel(QuestionBalanceSchema.name) private balanceModel: Model<QuestionBalanceSchema>,
-  ) {}
+  constructor(@InjectModel(QuestionBalanceSchema.name) private balanceModel: Model<QuestionBalanceSchema>) {}
 
   create(createBalanceDto: CreateBalanceQuestionDto) {
     return 'This action adds a new balance';
   }
 
-  async findAll() {
-    //#TODO : 쿼리에서 변경시킬 것
+  async findAll(balanceAnswers: number[]) {
     const [survey] = await this.balanceModel.aggregate([
-      { $match: { idx: { $nin: [1, 2, 3, 4] } } },
+      { $match: { idx: { $nin: balanceAnswers } } },
       { $sample: { size: 1 } },
     ]);
-
     const { title, idx, labelA, labelB } = survey;
     return {
       title,
