@@ -4,137 +4,111 @@
     <v-container>
       <v-sheet class="mx-auto" max-width="800px" min-height="80vh" rounded="lg">
         <v-row>
-          <v-col cols="12">
-            <v-subheader>
-              <v-icon color="info" v-text="'mdi-format-list-checkbox'"></v-icon>
-              웹 개발자 설문조사
-            </v-subheader>
-            <v-progress-linear :value="gage" class="px-15" color="primary" height="25">
-              <strong>{{ gage }}%</strong>
-            </v-progress-linear>
-          </v-col>
+          <top-progress-bar :gage="gage"></top-progress-bar>
           <v-col :key="step" cols="12">
             <v-divider />
             <v-container class="px-5" fluid>
               <v-card v-for="(item, idx) in stepQuestion" :key="item.title" class="mb-5" elevation="2" outlined>
-                <v-card-title class="border-left-2196f3 font-weight-medium text-body-1 text-sm-subtitle-1">
-                  <v-icon color="info">mdi-alpha-q-box</v-icon>
-                  {{ item.title }}
-                </v-card-title>
-                <v-divider class="text-left" />
+                <!-- 제목 -->
+                <survey-title :title="item.title" class="ma-0" />
+                <!-- 제목 -->
 
                 <!-- 설명문 -->
-                <v-alert v-if="item.desc" color="blue-grey" dark dense prominent>
-                  <v-card-text v-html="item.desc"></v-card-text>
-                </v-alert>
+                <survey-description :desc="item.desc" class="ma-0" />
+
                 <!-- 설명문 -->
-                <v-row>
+                <v-row class="pa-3 ma-0">
                   <v-col cols="12">
-                      <!-- 설문지 -->
+                    <!-- 설문지 -->
 
-                      <!-- 컴플릿 type -->
-                      <template v-if="item.type === 'COMPLETE'">
-                        <v-radio-group v-model="answerList[item.name]" row>
-                          <v-radio
-                              v-for="labelInfo in item.viewInfo"
-                              :key="item.seq + '-' + labelInfo.value"
-                              :value="labelInfo.value"
-                              class="col-md-6 ma-0 pa-0 col-sm-12"
-                              ripple
-                          >
-                            <template #label>
-                              {{ labelInfo.label }}
-                            </template>
-                          </v-radio>
-                        </v-radio-group>
-                      </template>
-                      <!-- 컴플릿 type -->
+                    <!-- 컴플릿 type -->
+                    <template v-if="item.type === 'COMPLETE'">
+                      <v-radio-group v-model="answerList[item.name]" row>
+                        <v-radio
+                          v-for="labelInfo in item.viewInfo"
+                          :key="item.seq + '-' + labelInfo.value"
+                          :value="labelInfo.value"
+                          class="col-md-6 ma-0 pa-0 col-sm-12"
+                          ripple
+                        >
+                          <template #label>
+                            {{ labelInfo.label }}
+                          </template>
+                        </v-radio>
+                      </v-radio-group>
+                    </template>
+                    <!-- 컴플릿 type -->
 
-                      <!-- 라디오 type -->
-                      <template v-if="item.type === 'RADIO'">
-                        <v-radio-group v-model="answerList[item.name]">
-                          <v-radio
-                              v-for="labelInfo in item.viewInfo"
-                              :key="item.seq + '-' + labelInfo.value"
-                              :value="labelInfo.value"
-                              ripple
-                          >
-                            <template #label>
-                              <v-row>
-                                <v-col v-if="labelInfo.addText" cols="6">
-                                  <v-text-field
-                                      v-model="answerList[item.name + '_ETC']"
-                                      class="ma-0 pa-0"
-                                      hide-details
-                                  ></v-text-field>
-                                </v-col>
-                                <v-col v-else cols="12">
-                                  <label class="text-body-2 text-sm-body-1">{{ labelInfo.label }}</label>
-                                </v-col>
-                              </v-row>
-                            </template>
-                          </v-radio>
-                        </v-radio-group>
-                      </template>
-                      <!-- 라디오 type -->
-
-                      <!-- 체크박스 type -->
-                      <template v-if="item.type === 'CHECKBOX' && Array.isArray(answerList[item.name])">
-                        <template v-for="labelInfo in item.viewInfo">
-                          <v-checkbox
-                              :key="item.seq + '-' + labelInfo.value"
-                              :class="item.name"
-                              :label="labelInfo.label"
-                              hide-details
-                              ripple
-                              @change="setCheckbox(item.name, labelInfo.value, $event)"
-                          />
-                          {{ answerList[item.name] }}
-                          {{ labelInfo.addText }}
-                          {{ answerList[item.name].includes(98) }}
-
-                          <!-- #todo: event 로 처리 -->
-                          <v-row v-if="labelInfo.addText" :id="item.name + '_check_etc'" class="d-none">
-                            <v-col cols="5">
-                              <v-text-field
-                                  :id="item.name + '_check_etc_value'"
+                    <!-- 라디오 type -->
+                    <template v-if="item.type === 'RADIO'">
+                      <v-radio-group v-model="answerList[item.name]">
+                        <v-radio
+                          v-for="labelInfo in item.viewInfo"
+                          :key="item.seq + '-' + labelInfo.value"
+                          :value="labelInfo.value"
+                          ripple
+                        >
+                          <template #label>
+                            <v-row>
+                              <v-col v-if="labelInfo.addText" cols="6">
+                                <v-text-field
                                   v-model="answerList[item.name + '_ETC']"
-                                  class="ml-5 ma-0 pa-0"
+                                  class="ma-0 pa-0"
                                   hide-details
-                                  label=""
-                              ></v-text-field>
-                            </v-col>
-                          </v-row>
-                        </template>
+                                ></v-text-field>
+                              </v-col>
+                              <v-col v-else cols="12">
+                                <label class="text-body-2 text-sm-body-1">{{ labelInfo.label }}</label>
+                              </v-col>
+                            </v-row>
+                          </template>
+                        </v-radio>
+                      </v-radio-group>
+                    </template>
+                    <!-- 라디오 type -->
+
+                    <!-- 체크박스 type -->
+                    <template v-if="item.type === 'CHECKBOX' && Array.isArray(answerList[item.name])">
+                      <template v-for="labelInfo in item.viewInfo">
+                        <v-checkbox
+                          :key="item.seq + '-' + labelInfo.value"
+                          :class="item.name"
+                          :label="labelInfo.label"
+                          hide-details
+                          ripple
+                          @change="setCheckbox(item.name, labelInfo.value, $event)"
+                        />
+                        <!-- #todo: event 로 처리 -->
+                        <v-row v-if="labelInfo.addText" :id="item.name + '_check_etc'" class="d-none">
+                          <v-col cols="5">
+                            <v-text-field
+                              :id="item.name + '_check_etc_value'"
+                              v-model="answerList[item.name + '_ETC']"
+                              class="ml-5 ma-0 pa-0"
+                              hide-details
+                              label=""
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
                       </template>
-                      <!-- 체크박스 type -->
+                    </template>
+                    <!-- 체크박스 type -->
 
-
-
-
-                      <!-- 라디오 type -->
-                      <template v-if="item.type === 'SATISFACTION'">
-                        <v-rating
-                            v-model="answerList[item.name]"
-                            color="yellow darken-3"
-                            background-color="grey darken-1"
-                            empty-icon="$ratingFull"
-                            hover
-                            size="48"
-                        ></v-rating>
-                        <v-card-title>{{ satisfactionMessage(answerList[item.name]) }}</v-card-title>
-                      </template>
-                      <!-- 라디오 type -->
-
-
-
-
+                    <!-- 라디오 type -->
+                    <template v-if="item.type === 'SATISFACTION'">
+                      <v-rating
+                        v-model="answerList[item.name]"
+                        color="yellow darken-3"
+                        background-color="grey darken-1"
+                        empty-icon="$ratingFull"
+                        hover
+                        size="48"
+                      ></v-rating>
+                      <v-card-title>{{ satisfactionMessage(answerList[item.name]) }}</v-card-title>
+                    </template>
+                    <!-- 라디오 type -->
                   </v-col>
                 </v-row>
-
-
-
-
 
                 <v-divider />
               </v-card>
@@ -162,9 +136,12 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { Survey } from '@/interface/survey-question';
 import { sampleQuestion2, viewInfo } from '@/util/default-setting/sample/sample-question';
+import TopProgressBar from '@/components/survey/top-progress-bar.vue';
+import SurveyTitle from '@/components/survey/card/survey-title.vue';
+import SurveyDescription from '@/components/survey/card/survey-description.vue';
 
 @Component({
-  components: {},
+  components: { SurveyDescription, SurveyTitle, TopProgressBar },
 })
 export default class SurveyView extends Vue {
   checkQuestionList: string[] = [];
@@ -177,9 +154,8 @@ export default class SurveyView extends Vue {
   } = { id: '', message: '' };
 
   get stepQuestion(): Survey.Question[] {
-    return this.surveyQuestions.filter((question) => question.name === 'Q24');
-    // return this.surveyQuestions.filter((question) => question.step === this.step);
-    // return this.surveyQuestions;
+    // return this.surveyQuestions.filter((question) => question.name === 'Q24');
+    return this.surveyQuestions.filter((question) => question.step === this.step);
   }
 
   get gage(): number {
@@ -193,6 +169,8 @@ export default class SurveyView extends Vue {
 
   created() {
     const routerName = this.$route.name;
+    const token = this.$store.getters.surveyToken;
+    console.log({ token });
   }
 
   async mounted() {
@@ -288,17 +266,16 @@ export default class SurveyView extends Vue {
     console.log(this.answerList);
   }
 
-  satisfactionMessage(value: number | number[] | string):string{
+  satisfactionMessage(value: number | number[] | string): string {
     const checkValue = value as number;
-    if(!checkValue) return '평가 대기중 입니다.'
-    if(checkValue === 1) return '매우 만족하지 못합니다.'
-    if(checkValue === 2) return '만족하지 못합니다.'
-    if(checkValue === 3) return '보통입니다.'
-    if(checkValue === 4) return '만족합니다.'
-    if(checkValue === 5) return '매우 만족합니다.'
-    return ''
+    if (!checkValue) return '평가 대기중 입니다.';
+    if (checkValue === 1) return '매우 만족하지 못합니다.';
+    if (checkValue === 2) return '만족하지 못합니다.';
+    if (checkValue === 3) return '보통입니다.';
+    if (checkValue === 4) return '만족합니다.';
+    if (checkValue === 5) return '매우 만족합니다.';
+    return '';
   }
-
 
   vote() {
     //#todo: 특정 문항은 number-> number[]로 변경해줘야함. QuestionType example-> Radio
@@ -312,7 +289,7 @@ export default class SurveyView extends Vue {
     this.step++;
   }
 
-  errorMessageOpen(){
+  errorMessageOpen() {
     this.$toast.open({
       message: this.errorInfo.message,
       type: 'error',
