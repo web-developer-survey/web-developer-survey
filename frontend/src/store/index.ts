@@ -17,6 +17,7 @@ export default new Vuex.Store({
   getters: {
     balanceAnswersIdx: (state) => state.balanceAnswersIdx,
     answerData: (state) => state.answerData,
+    surveyToken: (state) => '',
   },
   actions: {
     balanceVote({ commit }, questionIdx) {
