@@ -1,7 +1,7 @@
 <template>
   <v-main class="grey lighten-3">
     <!--#TODO 추후 컴포넌트 분리 예정-->
-    <v-container>
+    <v-container v-if="type === 'quantitative'">
       <v-sheet class="mx-auto" max-width="800px" min-height="80vh" rounded="lg">
         <v-row>
           <top-progress-bar :gage="gage"></top-progress-bar>
@@ -150,6 +150,7 @@ import SurveyDescription from '@/components/survey/card/survey-description.vue';
   components: { SurveyDescription, SurveyTitle, TopProgressBar },
 })
 export default class SurveyView extends Vue {
+  private type: 'quantitative' | 'qualitative' | '' = '';
   checkQuestionList: string[] = [];
   private surveyQuestions: Survey.Question[] = sampleQuestion2;
   private answerList: { [key: string]: number | number[] | string } = {};
@@ -177,8 +178,9 @@ export default class SurveyView extends Vue {
 
   created() {
     const routerName = this.$route.name;
-    const token = this.$store.getters.surveyToken;
-    console.log({ token });
+    this.type = this.$store.getters.surveyType;
+    // console.log({ token });
+    console.log(this.type);
   }
 
   async mounted() {
