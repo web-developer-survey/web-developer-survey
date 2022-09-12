@@ -57,6 +57,7 @@ const mainResult = './main/main-result.jpg';
 })
 export default class Home extends Vue {
   items = [
+    { title: '정량', href: 'question', icon: 'mdi-book-open-page-variant-outline' },
     { title: '질문지', href: 'question', icon: 'mdi-book-open-page-variant-outline' },
     { title: '결과 보고서', href: 'result', icon: 'mdi-chart-bar' },
     { title: '밸런스 게임', href: 'balance', icon: 'mdi-gamepad-variant' },
@@ -64,10 +65,18 @@ export default class Home extends Vue {
 
   cards = [
     {
-      title: '웹 개발자 설문 조사',
+      title: '웹 개발자 설문조사 ( 정량 )',
       src: './main/main-survey.jpg',
-      flex: 12,
-      link: 'question',
+      flex: 6,
+      link: 'survey/check?type=quantitative',
+      isBlank: true,
+      subTitle: '웹 개발자 설문조사 ( 2022.~~ )',
+    },
+    {
+      title: '웹 개발자 설문조사 ( 정성 )',
+      src: './main/main-survey.jpg',
+      flex: 6,
+      link: 'survey/check?type=qualitative',
       isBlank: true,
       subTitle: '웹 개발자 설문조사 ( 2022.~~ )',
     },

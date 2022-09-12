@@ -6,4 +6,8 @@ export interface State {
 
   //#TODO: 추후 인터페이스 생성
   answerData: any;
+
+  surveyTokenQuantitative: string;
+  surveyTokenQualitative: string;
+  surveyType: 'quantitative' | 'qualitative' | '';
 }

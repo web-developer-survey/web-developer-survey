@@ -9,6 +9,9 @@ export const state: State = {
   balanceAnswersIdx: [],
   questions: sampleQuestion,
   answerData: [],
+  surveyTokenQuantitative: '',
+  surveyTokenQualitative: '',
+  surveyType: '',
 };
 
 export default new Vuex.Store({
@@ -17,7 +20,9 @@ export default new Vuex.Store({
   getters: {
     balanceAnswersIdx: (state) => state.balanceAnswersIdx,
     answerData: (state) => state.answerData,
-    surveyToken: (state) => '',
+    surveyTokenQuantitative: (state) => state.surveyTokenQuantitative,
+    surveyTokenQualitative: (state) => state.surveyTokenQualitative,
+    surveyType: (state) => state.surveyType,
   },
   actions: {
     balanceVote({ commit }, questionIdx) {
@@ -26,6 +31,15 @@ export default new Vuex.Store({
     setAnswerData({ commit }, answerData) {
       commit('setAnswerData', answerData);
     },
+    setSurveyTokenQuantitative({ commit }, surveyTokenQuantitative) {
+      commit('setSurveyTokenQuantitative', surveyTokenQuantitative);
+    },
+    setSurveyTokenQualitative({ commit }, surveyTokenQualitative) {
+      commit('setSurveyTokenQualitative', surveyTokenQualitative);
+    },
+    setSurveyType({ commit }, type) {
+      commit('setSurveyType', type);
+    },
   },
   mutations: {
     balanceVote(state, questionIdx) {
@@ -33,6 +47,17 @@ export default new Vuex.Store({
     },
     setAnswerData(state, answerData) {
       state.answerData = answerData;
+    },
+    setSurveyTokenQuantitative(state, token) {
+      // 정량 조사
+      state.surveyTokenQuantitative = token;
+    },
+    setSurveyTokenQualitative(state, token) {
+      // 정성 조사
+      state.surveyTokenQualitative = token;
+    },
+    setSurveyType(state, type) {
+      state.surveyType = type;
     },
   },
   modules: {},

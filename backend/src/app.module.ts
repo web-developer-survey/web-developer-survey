@@ -6,9 +6,10 @@ import { ErrorFeature } from '@app/my-library/models/error/error.schema';
 import { APP_FILTER } from '@nestjs/core';
 import { GlobalFilter } from '@app/my-library/global-filter';
 import { modules } from '@app/my-library/common/app.modules';
+import { SurveyCheckModule } from './survey/survey-check/survey-check.module';
 
 @Module({
-  imports: [MyLibraryModule, ErrorFeature, ...modules],
+  imports: [MyLibraryModule, ErrorFeature, ...modules, SurveyCheckModule],
   controllers: [AppController],
   providers: [
     AppService,

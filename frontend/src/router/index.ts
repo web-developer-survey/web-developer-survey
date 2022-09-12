@@ -4,7 +4,8 @@ import SurveyView from '../views/SurveyView.vue';
 import Home from '@/views/Home.vue';
 import ResultView from '@/views/ResultView.vue';
 import BalanceView from '@/views/BalanceView.vue';
-import QuestionManageView from "@/views/QuestionManageView.vue";
+import QuestionManageView from '@/views/QuestionManageView.vue';
+import SurveyCheckView from '@/views/surveyCheckView.vue';
 
 Vue.use(VueRouter);
 
@@ -15,14 +16,19 @@ const routes: Array<RouteConfig> = [
     component: Home,
   },
   {
-    path: '/question',
-    name: 'Question',
+    path: '/survey',
+    name: 'survey',
     component: SurveyView,
   },
   {
     path: '/result',
     name: 'Result',
     component: ResultView,
+  },
+  {
+    path: '/survey/check',
+    name: 'SurveyCheck',
+    component: SurveyCheckView,
   },
   {
     path: '/balance',
@@ -33,7 +39,7 @@ const routes: Array<RouteConfig> = [
     path: '/manage',
     name: 'Manage',
     component: QuestionManageView,
-  }
+  },
 ];
 
 const router = new VueRouter({
