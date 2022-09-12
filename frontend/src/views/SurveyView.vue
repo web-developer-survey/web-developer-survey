@@ -107,6 +107,12 @@
                       <v-card-title>{{ satisfactionMessage(answerList[item.name]) }}</v-card-title>
                     </template>
                     <!-- 라디오 type -->
+
+                    <!-- 텍스트 type -->
+                    <template v-if="item.type === 'TEXT'">
+                      <v-text-field v-model="answerList[item.name]" size="12"></v-text-field>
+                    </template>
+                    <!-- 텍스트 type -->
                   </v-col>
                 </v-row>
 
@@ -155,7 +161,9 @@ export default class SurveyView extends Vue {
 
   get stepQuestion(): Survey.Question[] {
     // return this.surveyQuestions.filter((question) => question.name === 'Q24');
-    return this.surveyQuestions.filter((question) => question.step === this.step);
+    // return this.surveyQuestions.filter((question) => question.step === this.step);
+
+    return this.surveyQuestions;
   }
 
   get gage(): number {
