@@ -1,8 +1,9 @@
 # build stage
-FROM node:lts-alpine as build-stage
+FROM node:17 as build-stage
 WORKDIR /app
 COPY package*.json ./
-RUN npm install
+RUN yarn install
+RUN npm install -g @vue/cli
 COPY . .
 RUN npm run build
 
