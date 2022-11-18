@@ -23,12 +23,12 @@ export class SurveyQuestionController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.surveyQuestionService.findOne(+id);
+    return this.surveyQuestionService.findOne('te');
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSurveyQuestionDto: UpdateSurveyQuestionDto) {
-    return this.surveyQuestionService.update(+id, updateSurveyQuestionDto);
+  @Patch(':questionName')
+  update(@Param('questionName') questionName: string, @Body() updateQuestionInfo: UpdateSurveyQuestionDto) {
+    return this.surveyQuestionService.update(questionName, updateQuestionInfo);
   }
 
   @Delete(':id')

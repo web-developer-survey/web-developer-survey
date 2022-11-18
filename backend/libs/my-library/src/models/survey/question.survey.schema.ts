@@ -16,11 +16,14 @@ export interface ViewInfo {
 
 @Schema({ collection: CollectionInfo.QUESTION_SURVEY })
 export class QuestionSurveySchema extends Document {
-  // @Prop({ required: false, type: String })
-  // _id: string;
+  @Prop({ required: false, type: String })
+  _id: string;
 
   @Prop({ required: false, default: 1, type: Number })
   surveyId: number;
+
+  @Prop({ required: false, type: String })
+  surveyType: string;
 
   @Prop({ required: false, type: Number })
   step: number;
