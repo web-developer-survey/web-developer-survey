@@ -1,9 +1,10 @@
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DynamicModule, Type } from '@nestjs/common';
 import { AsyncModelFactory, MongooseModule, SchemaFactory } from '@nestjs/mongoose';
+import { ModelDefinition } from '@nestjs/mongoose/dist/interfaces';
 
 require('dotenv').config({
-  path: '../.env',
+  path: '.env',
 });
 
 export const uri: string = process.env.uri;
@@ -29,7 +30,6 @@ export const enum WebBalanceCollectionInfo {
 
 export const dbSurveyOption = {
   imports: [ConfigModule],
-  connectionName: DB_NAME.DevSurvey,
   useFactory: () => ({
     uri: uri,
     useNewUrlParser: true,
@@ -38,14 +38,12 @@ export const dbSurveyOption = {
   inject: [ConfigService],
 };
 
-export function createFeature<TClass>(target: Type<TClass>): DynamicModule {
+export function createModule<TClass>(target: Type<TClass>): DynamicModule {
   const targetSchema = SchemaFactory.createForClass(target);
-  const targetFactory: AsyncModelFactory = {
+  const targetModel: ModelDefinition = {
     name: target.name,
-    useFactory: () => {
-      return targetSchema;
-    },
+    schema: targetSchema,
   };
-  const modelFactory: AsyncModelFactory[] = [targetFactory];
-  return MongooseModule.forFeatureAsync(modelFactory, DB_NAME.DevSurvey);
+  const targetModelInit: ModelDefinition[] = [targetModel];
+  return MongooseModule.forFeature(targetModelInit);
 }

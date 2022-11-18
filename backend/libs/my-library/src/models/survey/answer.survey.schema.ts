@@ -1,4 +1,4 @@
-import { CollectionInfo, createFeature } from '@app/my-library/common/db.config';
+import { CollectionInfo, createModule } from '@app/my-library/common/db.config';
 import { IpInfo } from '@app/my-library/interface/decorator/ip-info';
 import { Survey } from '@app/my-library/interface/survey/Survey';
 import { Prop, Schema } from '@nestjs/mongoose';
@@ -37,4 +37,4 @@ export class AnswerSurveySchema extends Document {
   createAt: Date;
 }
 
-export const answerFactory = createFeature(AnswerSurveySchema);
+export const answerFactory = createModule(AnswerSurveySchema);

@@ -1,6 +1,6 @@
 import { Prop, Schema } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { CollectionInfo, createFeature } from '@app/my-library/common/db.config';
+import { CollectionInfo, createModule } from '@app/my-library/common/db.config';
 
 @Schema({ collection: CollectionInfo.BALANCE_ANSWER })
 export class AnswerBalanceSchema extends Document {
@@ -20,4 +20,4 @@ export class AnswerBalanceSchema extends Document {
   userAgent: string;
 }
 
-export const AnswerBalanceFactory = createFeature(AnswerBalanceSchema);
+export const AnswerBalanceFactory = createModule(AnswerBalanceSchema);

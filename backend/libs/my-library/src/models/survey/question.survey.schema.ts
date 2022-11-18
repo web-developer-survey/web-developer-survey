@@ -1,4 +1,4 @@
-import { CollectionInfo, createFeature } from '@app/my-library/common/db.config';
+import { CollectionInfo, createModule } from '@app/my-library/common/db.config';
 import { Prop, Schema } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
@@ -61,5 +61,4 @@ export class QuestionSurveySchema extends Document {
   @Prop({ required: false, type: Boolean, default: true })
   isShow: true;
 }
-
-export const QuestionFeature = createFeature(QuestionSurveySchema);
+export const QuestionFeature = createModule(QuestionSurveySchema);
